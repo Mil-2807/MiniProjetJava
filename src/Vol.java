@@ -1,14 +1,14 @@
 import java.util.Date;
 
 public class Vol {
-    private int numeroVol;
+    private String numeroVol;
     private String origine;
     private String destination;
-    private Date dateHeureDepart;
-    private Date dateHeureArrivee;
+    private String dateHeureDepart;
+    private String dateHeureArrivee;
     private String etat;
 
-    public Vol(int numeroVol, String origine, String destination, Date dateHeureDepart, Date dateHeureArrivee, String etat) {
+    public Vol(String numeroVol, String origine, String destination, String dateHeureDepart, String dateHeureArrivee, String etat) {
         this.numeroVol = numeroVol;
         this.origine = origine;
         this.destination = destination;
@@ -17,11 +17,11 @@ public class Vol {
         this.etat = etat;
     }
 
-    public int getNumeroVol() {
+    public String getNumeroVol() {
         return numeroVol;
     }
 
-    public void setNumeroVol(int numeroVol) {
+    public void setNumeroVol(String numeroVol) {
         this.numeroVol = numeroVol;
     }
 
@@ -41,18 +41,18 @@ public class Vol {
         this.destination = destination;
     }
 
-    public Date getDateHeureDepart() {
+    public String getDateHeureDepart() {
         return dateHeureDepart;
     }
 
-    public void setDateHeureDepart(Date dateHeureDepart) {
+    public void setDateHeureDepart(String dateHeureDepart) {
         this.dateHeureDepart = dateHeureDepart;
     }
 
-    public Date getDateHeureArrivee() {
+    public String getDateHeureArrivee() {
         return dateHeureArrivee;
     }
-    public void setDateHeureArrivee(Date dateHeureArrivee) {
+    public void setDateHeureArrivee(String dateHeureArrivee) {
         this.dateHeureArrivee = dateHeureArrivee;
     }
     public String getEtat() {
