@@ -94,7 +94,6 @@ public class Avion {
 
     public static Avion chercherAvion(String immatriculation) {
         if (avions.containsKey(immatriculation)) {
-            System.out.println("Informations de l'Avion : " + immatriculation);
             avions.get(immatriculation).afficherInfos();
             return avions.get(immatriculation);
         } else {

@@ -150,16 +150,21 @@ public class Vol {
     }
 
     public void ListingPassager(List<Reservation> reservations) {
-        System.out.println("Passager : " + numeroVol + "\nReservation List : " + reservations);
+        System.out.println(" --- Passager du vol : " + numeroVol + " ----- ");
         boolean aucunePassager = true;
         for (Reservation reservation : reservations) {
             if (reservation.getVol() != null && reservation.getVol().getNumeroVol().equals(numeroVol)) {
-                System.out.println(" - " + reservation.getPassager().getNom() + ", Identifiant : " + reservation.getPassager().getIdentifiant());
-                aucunePassager = false;
+                Passager passager = reservation.getPassager();
+                if (passager != null) {
+                    System.out.println("- " + passager.getNom() + ", Identifiant : " + passager.getIdentifiant());
+                    aucunePassager = false;
+                } else {
+                    System.out.println("- Passager inconnu pour cette réservation.");
+                }
             }
         }
         if (aucunePassager) {
-            System.out.println("AUCUN PASSAGER");
+            System.out.println("Aucun passager réservé sur ce vol.");
         }
     }
 
@@ -185,7 +190,7 @@ public class Vol {
         System.out.println("Avion " + (avion != null ? avion.getImmatriculation() : "aucun") + " affecté au vol " + numeroVol);
     }
     public void obtenirVol() {
-        System.out.println("--- Informations du Vol " + numeroVol + " ---");
+        System.out.println(" --- Informations du Vol " + numeroVol + " ---");
         System.out.println("Numéro de Vol: " + numeroVol);
         System.out.println("Origine: " + origine);
         System.out.println("Destination: " + destination);
@@ -226,7 +231,6 @@ public class Vol {
 
     public static Vol chercherVol(String numeroVol) {
         if (vols.containsKey(numeroVol)) {
-            System.out.println("Informations du Vol " + numeroVol);
             vols.get(numeroVol).obtenirVol();
             return vols.get(numeroVol);
         } else {

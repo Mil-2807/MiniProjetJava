@@ -11,7 +11,7 @@ public class Reservation {
     //Gestion CRUD
     private static Map<String, Reservation> reservations = new HashMap<>();
 
-    public Reservation(String numeroReservation, String dateReservation, String statut) {
+    public Reservation(String numeroReservation, String dateReservation, String statut, Passager passager, Vol vol) {
         this.numeroReservation = numeroReservation;
         this.dateReservation = dateReservation;
         this.statut = statut;
@@ -86,14 +86,11 @@ public class Reservation {
     }
 
     public void afficherInfoReservation() {
-        System.out.println("Détails de reservation " + numeroReservation);
         System.out.println("Numero de reservation: " + numeroReservation);
         System.out.println("Date: " + dateReservation);
         System.out.println("Statut: " + statut);
-        System.out.println("Passager: " + passager);
-        System.out.println("Vol: " + vol);
         if (passager != null) {
-            System.out.println("Passager: " + passager.getNom() + " , Identifiant : " + passager.getIdentifiant());
+            System.out.println("Passager: " + passager.getNom() + " (ID : " + passager.getIdentifiant() + " )");
         } else {
             System.out.println("Passager : non identifié");
         }
@@ -115,7 +112,7 @@ public class Reservation {
 
     public static Reservation chercherReservation(String numeroReservation) {
         if (reservations.containsKey(numeroReservation)) {
-            System.out.println("Informations de la Réservation N° " + numeroReservation);
+            System.out.println(" --- Informations de la Réservation N° " + numeroReservation + " ----");
             reservations.get(numeroReservation).afficherInfoReservation();
             return reservations.get(numeroReservation);
         } else {

@@ -69,7 +69,7 @@ public class Passager extends Personne{
             passagers.put(passager.getIdentifiant(), passager);
             System.out.println("Passager : " + passager.getIdentifiant() + " ajouté");
         } else {
-            System.out.println("Erreur : Un passager" + passager.getIdentifiant() + "existe déjà");
+            System.out.println("Erreur : Un passager " + passager.getIdentifiant() + " existe déjà");
         }
     }
 

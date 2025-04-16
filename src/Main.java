@@ -26,8 +26,8 @@ public class Main {
         Avion.ajouterAvion(avion2);
 
         // Création d'instances d'Aeroport
-        Aeroport parisCDG = new Aeroport("Paris Charles de Gaulle", "Principal aéroport de Paris", "...");
-        Aeroport niceCoteDAzur = new Aeroport("Nice Côte d'Azur", "Aéroport desservant la Côte d'Azur", "...");
+        Aeroport parisCDG = new Aeroport("Paris Charles de Gaulle", "Roissy", "Aeropoet Charles dde Gaules Terminal 1,2 et 3");
+        Aeroport niceCoteDAzur = new Aeroport("Nice Côte d'Azur", "Nice", "Aéroport Côte d'Azur Terminal 1 et 2");
         Aeroport.ajouterAeroport(parisCDG);
         Aeroport.ajouterAeroport(niceCoteDAzur);
 
@@ -44,12 +44,12 @@ public class Main {
         // Si plusieurs membres d'équipage :
         // List<PersonnelCabine> equipageVol1 = new ArrayList<>();
         // equipageVol1.add(cabine1);
-        // equipageVol1.add(cabine2);
+        //equipageVol1.add(cabine2);
         // vol1.setPersonnelCabine(equipageVol1);
-        vol1.setAvion(avion1);
+        // vol1.setAvion(avion1);
 
         // Un passager réserve un vol
-        Reservation reservation1 = new Reservation("RES001", "2025-04-10", "En attente");
+        Reservation reservation1 = new Reservation("RES001", "2025-04-10", "En attente", passager1, vol1);
         Reservation.ajouterReservation(reservation1);
         reservations.add(reservation1);
         // Si vous aviez une méthode pour ajouter la réservation à la liste du passager :
@@ -65,13 +65,32 @@ public class Main {
         vol1.ListingPassager(reservations);
 
         // Annuler une réservation
-        Reservation.chercherReservation("RES001").setStatut("Annulée");
+        String numeroReservationAnnuler = reservation1.getNumeroReservation();
+        Reservation reservationAnnuler = Reservation.chercherReservation(numeroReservationAnnuler);
+
+        if (reservationAnnuler != null) {
+            reservationAnnuler.annulerReservation();
+            System.out.println("Statut de la réservation après annulation : " + reservationAnnuler.getStatut());
+        } else {
+            System.out.println("Erreur : Réservation avec le numéro " + numeroReservationAnnuler + " non trouvée.");
+        }
 
         // Tenter d'afficher à nouveau les informations de la réservation
         Reservation.chercherReservation("RES001");
 
         // Annuler le vol
-        Vol.chercherVol("GB475").annulerVol();
+        Vol volAnnuler = Vol.chercherVol(vol1.getNumeroVol());
+        if (volAnnuler != null) {
+            volAnnuler.annulerVol();
+        } else {
+            System.out.println("Erreur : Vol GB475 non trouvé.");
+        }
+
+        // Vous pouvez ensuite vérifier l'état du vol si nécessaire
+        Vol volVerifie = Vol.chercherVol("GB475");
+        if (volVerifie != null) {
+            System.out.println("État du vol GB475 après l'annulation : " + volVerifie.getEtat());
+        }
 
         // Exemple de recherche d'une personne par son ID
         Personne personneTrouvee = Personne.chercherPersonne("ECP511");

@@ -65,7 +65,6 @@ public class Aeroport {
 
     public static Aeroport chercherAeroport(String nom) {
         if (aeroports.containsKey(nom)) {
-            System.out.println("Informations de la aeroport : " + nom);
             aeroports.get(nom).afficherInfos();
             return aeroports.get(nom);
         } else {
