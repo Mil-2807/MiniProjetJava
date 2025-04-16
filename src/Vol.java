@@ -139,16 +139,6 @@ public class Vol {
         System.out.println("Vol : " + numeroVol + "\nOrigine : " + origine + "\nDestination : " + destination);
     }
 
-    public void modifierVol(String nouvelleOrigine, String nouvelleDestination, String nouvelleDateHeureDepart, String nouvelleDateHeureArrivee, String nouvelEtat) {
-        this.origine = nouvelleOrigine;
-        this.destination = nouvelleDestination;
-        this.dateHeureDepart = nouvelleDateHeureDepart;
-        this.dateHeureArrivee = nouvelleDateHeureArrivee;
-        this.etat = nouvelEtat;
-        vols.put(this.numeroVol, this);
-        System.out.println("Vol " + numeroVol + " modifié");
-    }
-
     public void ListingPassager(List<Reservation> reservations) {
         System.out.println(" --- Passager du vol : " + numeroVol + " ----- ");
         boolean aucunePassager = true;

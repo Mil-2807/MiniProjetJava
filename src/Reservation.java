@@ -77,12 +77,18 @@ public class Reservation {
         System.out.println("Réservation " + numeroReservation + " est annulée");
     }
 
-    public void modiferReservation(String nouveauStatut, Passager nouveauPassager, Vol nouveauVol) {
-        this.statut = nouveauStatut;
-        this.passager = nouveauPassager;
-        this.vol = nouveauVol;
-        reservations.put(this.numeroReservation, this);
-        System.out.println("Réservation " + numeroReservation + "est modifiée");
+    public static void modifierReservation(String numeroReservation, String nouvelleDateReservation, String nouveauStatut, Passager nouveauPassager, Vol nouveauVol) {
+        if (reservations.containsKey(numeroReservation)) {
+            Reservation reservationAModifier = reservations.get(numeroReservation);
+            reservationAModifier.dateReservation = nouvelleDateReservation;
+            reservationAModifier.statut = nouveauStatut;
+            reservationAModifier.passager = nouveauPassager;
+            reservationAModifier.vol = nouveauVol;
+            reservations.put(numeroReservation, reservationAModifier);
+            System.out.println("Informations de la réservation N° " + numeroReservation + " mises à jour.");
+        } else {
+            System.out.println("Réservation avec le numéro " + numeroReservation + " non trouvée.");
+        }
     }
 
     public void afficherInfoReservation() {
@@ -110,24 +116,11 @@ public class Reservation {
         }
     }
 
-    public static Reservation chercherReservation(String numeroReservation) {
+    public static void chercherReservation(String numeroReservation) {
         if (reservations.containsKey(numeroReservation)) {
             System.out.println(" --- Informations de la Réservation N° " + numeroReservation + " ----");
             reservations.get(numeroReservation).afficherInfoReservation();
-            return reservations.get(numeroReservation);
-        } else {
-            System.out.println("Réservation N° " + numeroReservation + " non trouvée.");
-            return null;
-        }
-    }
-
-    public static void modifierReservation(String numeroReservation, String nouveauStatut, Passager nouveauPassager, Vol nouveauVol) {
-        if (reservations.containsKey(numeroReservation)) {
-            Reservation reservationAModifier = reservations.get(numeroReservation);
-            reservationAModifier.setStatut(nouveauStatut);
-            reservationAModifier.setPassager(nouveauPassager);
-            reservationAModifier.setVol(nouveauVol);
-            System.out.println("Informations de la réservation N° " + numeroReservation + " mises à jour.");
+            reservations.get(numeroReservation);
         } else {
             System.out.println("Réservation N° " + numeroReservation + " non trouvée.");
         }

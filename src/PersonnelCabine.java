@@ -47,7 +47,7 @@ public class PersonnelCabine extends Employe {
             personnelCabines.put(personnelCabine.getIdentifiant(), personnelCabine);
             System.out.println("Personnel de cabine " + personnelCabine.getIdentifiant() + " ajouté.");
         } else {
-            System.out.println("Erreur: Un personnel de cabine" + personnelCabine.getIdentifiant() + " existe déjà.");
+            System.out.println("Erreur: Un personnel de cabine " + personnelCabine.getIdentifiant() + " existe déjà.");
         }
     }
 
