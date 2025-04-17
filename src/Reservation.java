@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 public class Reservation {
     private String numeroReservation;
@@ -133,5 +134,20 @@ public class Reservation {
         } else {
             System.out.println("Réservation N° " + numeroReservation + " non trouvée.");
         }
+    }
+
+    // Méthode pour statistiques
+    public static int getNombreTotalPassagers(List<Reservation> reservationsList) {
+        return reservationsList.size();
+    }
+
+    public static double calculerRevenusTotaux(List<Reservation> reservationsList) {
+        double revenus = 0;
+        for (Reservation reservation : reservationsList) {
+            if (reservation.getVol() != null && reservation.getStatut().equalsIgnoreCase("Confirmée")) {
+                revenus += reservation.getVol().getPrix();
+            }
+        }
+        return revenus;
     }
 }

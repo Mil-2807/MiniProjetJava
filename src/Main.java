@@ -1,13 +1,16 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
     private static List<Reservation> reservations = new ArrayList<>();
+    //private static List<Vol> volsPlanifies = new ArrayList<>();
 
     public static void main(String[] args) {
         // ------------ Personnes (hérité Pilote et Passager et PersonnelCabine)  -------------------
         // Création d'instances de Personnes
         // Ajouter des personnes
+        System.out.println("----------- Méthode CRUD --------------");
         System.out.println("----------- Personnes ---------------");
         Pilote pilote1 = new Pilote("ECP511", "Milan Baskara", "15 rue des Champs-Elysées", "06 99 78 16 23", "EMP-ECP-511", "07-09-2015", "PPL-2024", 1250);
         Pilote.ajouterPilote(pilote1);
@@ -128,22 +131,22 @@ public class Main {
         // -------------- Vol --------------------
         // Création d'instances de Vol
         System.out.println("---------- Vol -------------");
-        Vol vol1 = new Vol("GB475", "Paris", "Nice", "2025-04-13 15:25", "2025-04-13 16:45", "Planifié");
+        Vol vol1 = new Vol("GB475", "Paris", "Nice", "2025-04-13 15:25", "2025-04-13 16:45", "Planifié", 550.50);
         vol1.setAeroportDepart(parisCDG);
         vol1.setAeroportArrivee(niceCoteDAzur);
         Vol.ajouterVol(vol1);
         Vol.chercherVol("GB475");
 
         // --- Ajouter un vol ------------
-        Aeroport londresHeathrow = new Aeroport("London Heathrow", "London", "Principal aéroport de Londres");
+        Aeroport londresHeathrow = new Aeroport("London Heathrow", "Londres", "Principal aéroport de Londres");
         Aeroport.ajouterAeroport(londresHeathrow);
-        Vol vol2 = new Vol("AF104", "Paris", "Lyon", "2025-04-10 09:00", "2025-04-10 09:30", "Planifié");
+        Vol vol2 = new Vol("AF104", "Paris", "Lyon", "2025-04-10 09:00", "2025-04-10 09:30", "Planifié", 415.75);
         vol2.setAeroportDepart(parisCDG);
         vol2.setAeroportArrivee(lyonSaintExupery);
         Vol.ajouterVol(vol2);
         Vol.chercherVol("AF104");
 
-        Vol vol3 = new Vol("BA308", "Lyon", "London", "2025-04-11 11:00", "2025-04-11 14:00", "Planifié");
+        Vol vol3 = new Vol("BA308", "Lyon", "Londres", "2025-04-11 11:00", "2025-04-11 14:00", "Planifié", 695.75);
         vol3.setAeroportDepart(lyonSaintExupery);
         vol3.setAeroportArrivee(londresHeathrow);
         Vol.ajouterVol(vol3);
@@ -151,11 +154,11 @@ public class Main {
 
         // Modifier le vol
         System.out.println(" --- Modification du Vol GB475 ---");
-        Vol.modifierVol("GB475", "Paris", "Nice", "2025-04-13 16:00", "2025-04-13 17:15", "Retard", Pilote.chercherPilote("ECP511"), PersonnelCabine.chercherPersonnelCabine("CAB148"), Avion.chercherAvion("BO-485"), Aeroport.chercherAeroport("CDG"), Aeroport.chercherAeroport("NCE"));
+        Vol.modifierVol("GB475", "Paris", "Nice", "2025-04-13 16:00", "2025-04-13 17:15", "Retard", 450.00, Pilote.chercherPilote("ECP511"), PersonnelCabine.chercherPersonnelCabine("CAB148"), Avion.chercherAvion("BO-485"), Aeroport.chercherAeroport("CDG"), Aeroport.chercherAeroport("NCE"));
         Vol.chercherVol("GB475");
 
         System.out.println(" --- Modification du Vol AF104 ---");
-        Vol.modifierVol("AF104", "Paris", "Londres", "2025-04-17 09:30", "2025-04-17 10:00", "À l'heure", Vol.chercherVol("AF104").getPilote(), Vol.chercherVol("AF104").getPersonnelCabine(), Vol.chercherVol("AF104").getAvion(), Vol.chercherVol("AF104").getAeroportDepart(), Aeroport.chercherAeroport("Londres Heathrow"));
+        Vol.modifierVol("AF104", "Paris", "Londres", "2025-04-17 09:30", "2025-04-17 10:00", "À l'heure", 685.75, Vol.chercherVol("AF104").getPilote(), Vol.chercherVol("AF104").getPersonnelCabine(), Vol.chercherVol("AF104").getAvion(), Vol.chercherVol("AF104").getAeroportDepart(), Aeroport.chercherAeroport("Londres Heathrow"));
         Vol.chercherVol("AF104");
 
         //---- Supprimer le vol --------------
@@ -207,6 +210,7 @@ public class Main {
 
 
         System.out.println(" ------ Main ---------");
+        System.out.println(" ------ Reservations des personnes ---------");
 
         // Affecter un vol
         System.out.println("Aeroport : ");
@@ -288,6 +292,25 @@ public class Main {
         Aeroport aeroportTrouve = Aeroport.chercherAeroport("Paris Charles de Gaulle");
         if (aeroportTrouve != null) {
             aeroportTrouve.afficherInfos();
+        }
+
+        System.out.println( "------ Bonus ---------------");
+        // Affichage des statistiques et rapports
+        System.out.println("\n----- Statistiques et Rapports -----");
+        System.out.println("Nombre total de vols planifiés : " );
+        Vol.listerTousLesVols();
+        System.out.println("Nombre total de passagers transportés : " + Reservation.getNombreTotalPassagers(reservations));
+        System.out.println("Revenus totaux générés (pour les vols confirmés) : " + Reservation.calculerRevenusTotaux(reservations) + " €");
+
+        Map<String, Integer> destinationsPopulaires = Vol.getDestinationsPopulaires(reservations);
+        System.out.println("\nDestinations les plus populaires :");
+        int count = 0;
+        for (Map.Entry<String, Integer> entry : destinationsPopulaires.entrySet()) {
+            System.out.println("- " + entry.getKey() + " : " + entry.getValue() + " réservations");
+            count++;
+            if (count >= 5) {
+                break;
+            }
         }
     }
 }
