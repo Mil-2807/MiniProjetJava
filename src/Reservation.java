@@ -69,13 +69,13 @@ public class Reservation {
     public void confirmerReservation() {
         statut = "confirmée";
         reservations.put(this.numeroReservation, this);
-        System.out.println("Réservation " + numeroReservation + " est confirmée");
+        System.out.println("Réservation " + numeroReservation + " est " + statut);
     }
 
     public void annulerReservation() {
         statut = "annulée";
         reservations.put(this.numeroReservation, this);
-        System.out.println("Réservation " + numeroReservation + " est annulée");
+        System.out.println("Réservation " + numeroReservation + " est " + statut);
     }
 
     public static void modifierReservation(String numeroReservation, String nouvelleDateReservation, String nouveauStatut, Passager nouveauPassager, Vol nouveauVol) {
@@ -86,7 +86,7 @@ public class Reservation {
             reservationAModifier.passager = nouveauPassager;
             reservationAModifier.vol = nouveauVol;
             reservations.put(numeroReservation, reservationAModifier);
-            System.out.println("Informations de la réservation N° " + numeroReservation + " mises à jour.");
+            System.out.println("Informations de la réservation N° " + numeroReservation + " met à jour.");
         } else {
             System.out.println("Réservation avec le numéro " + numeroReservation + " non trouvée.");
         }
@@ -109,9 +109,9 @@ public class Reservation {
     }
 
     public static void ajouterReservation(Reservation reservation) {
-        if (!reservations.containsKey(reservation.getNumeroReservation())) {
+        if (reservations.containsKey(reservation.getNumeroReservation())) {
             reservations.put(reservation.getNumeroReservation(), reservation);
-            System.out.println("Réservation N° " + reservation.getNumeroReservation() + " ajoutée.");
+            System.out.println("Réservation N° " + reservation.getNumeroReservation() + " est bien ajoutée.");
         } else {
             System.out.println("Erreur: Une réservation " + reservation.getNumeroReservation() + " existe déjà.");
         }
@@ -119,7 +119,7 @@ public class Reservation {
 
     public static void chercherReservation(String numeroReservation) {
         if (reservations.containsKey(numeroReservation)) {
-            System.out.println(" --- Informations de la Réservation N° " + numeroReservation + " ----");
+            System.out.println("\n ----- Informations de la Réservation N° " + numeroReservation + " ------");
             reservations.get(numeroReservation).afficherInfoReservation();
             reservations.get(numeroReservation);
         } else {
@@ -130,7 +130,7 @@ public class Reservation {
     public static void supprimerReservation(String numeroReservation) {
         if (reservations.containsKey(numeroReservation)) {
             reservations.remove(numeroReservation);
-            System.out.println("Réservation N° " + numeroReservation + " supprimée.");
+            System.out.println("Réservation N° " + numeroReservation + " est supprimée.");
         } else {
             System.out.println("Réservation N° " + numeroReservation + " non trouvée.");
         }

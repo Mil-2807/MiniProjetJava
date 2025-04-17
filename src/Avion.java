@@ -72,7 +72,7 @@ public class Avion {
     }
 
     public void afficherInfos() {
-        System.out.println("Informations de l'Avion : " + immatriculation);
+        System.out.println("\n----- Informations de l'Avion : " + immatriculation + "-----------");
         System.out.println("Immatriculation: " + immatriculation);
         System.out.println("Modèle: " + modele);
         System.out.println("Capacité: " + capacite + " passagers");
@@ -84,9 +84,9 @@ public class Avion {
     }
 
     public static void ajouterAvion(Avion avion) {
-        if (!avions.containsKey(avion.getImmatriculation())) {
+        if (avions.containsKey(avion.getImmatriculation())) {
             avions.put(avion.getImmatriculation(), avion);
-            System.out.println("Avion " + avion.getImmatriculation() + " ajouté.");
+            System.out.println("Avion " + avion.getImmatriculation() + " est bien ajouté.");
         } else {
             System.out.println("Erreur: Un avion " + avion.getImmatriculation() + " existe déjà.");
         }
@@ -108,7 +108,7 @@ public class Avion {
             avionAModifier.modele = nouveauModele;
             avionAModifier.capacite = nouvelleCapacite;
             avions.put(immatriculation, avionAModifier);
-            System.out.println("Informations de l'avion " + immatriculation + " mises à jour.");
+            System.out.println("Informations de l'avion " + immatriculation + " met à jour.");
         } else {
             System.out.println("Avion " + immatriculation + " non trouvé.");
         }
@@ -117,7 +117,7 @@ public class Avion {
     public static void supprimerAvion(String immatriculation) {
         if (avions.containsKey(immatriculation)) {
             avions.remove(immatriculation);
-            System.out.println("Avion " + immatriculation + " supprimé.");
+            System.out.println("Avion " + immatriculation + " est supprimé.");
         } else {
             System.out.println("Avion " + immatriculation + " non trouvé.");
         }

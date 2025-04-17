@@ -31,14 +31,14 @@ public class Passager extends Personne{
     }
 
     public void reserverVol(Vol vol, List<Reservation> reservations) {
-        System.out.println("Reserver vol  : ");
+        System.out.println("\n-------- Reserver vol  : ---------");
         System.out.println("Nom : " +getNom());
         System.out.println("Vol : " +vol.getNumeroVol());
         System.out.println("Passeport : " +getPasseport());
     }
 
     public void annulerReservation(String numeroReservation, List<Reservation> reservations) {
-        System.out.println("Annuler le réservation  : ");
+        System.out.println("\n------- Annuler le réservation  : -----------");
         System.out.println("Nom : " +getNom());
         System.out.println("Numéro de reservation : " +numeroReservation);
         System.out.println("Passeport : " +getPasseport());
@@ -46,7 +46,7 @@ public class Passager extends Personne{
     }
 
     public void obtenirReservation(String numeroReservation, List<Reservation> reservations) {
-        System.out.println("Obtenir la reservation : ");
+        System.out.println("\n--------- Obtenir la reservation : ----------");
         System.out.println("Nom : " +getNom());
         System.out.println("Numero de reservation : " +numeroReservation);
         System.out.println("Passeport : " +getPasseport());
@@ -65,9 +65,9 @@ public class Passager extends Personne{
     }
 
     public static void ajouterPassager(Passager passager) {
-        if (!passagers.containsKey(passager.getIdentifiant())) {
+        if (passagers.containsKey(passager.getIdentifiant())) {
             passagers.put(passager.getIdentifiant(), passager);
-            System.out.println("Passager : " + passager.getIdentifiant() + " ajouté");
+            System.out.println("Passager : " + passager.getIdentifiant() + " est bien ajouté");
         } else {
             System.out.println("Erreur : Un passager " + passager.getIdentifiant() + " existe déjà");
         }
@@ -75,7 +75,7 @@ public class Passager extends Personne{
 
     public static Passager chercherPassager(String identifiant) {
         if(passagers.containsKey(identifiant)) {
-            System.out.println("Information du passager " +identifiant);
+            System.out.println("\n------ Information du passager " +identifiant + "--------");
             passagers.get(identifiant).obtenirInfos();
             return passagers.get(identifiant);
         } else {
@@ -92,7 +92,7 @@ public class Passager extends Personne{
             passagerAModifier.setContact(nouveauContact);
             passagerAModifier.setPasseport(nouveauPasseport);
             passagers.put(identifiant, passagerAModifier); // Mettre à jour dans la map
-            System.out.println("Informations du passager avec l'identifiant " + identifiant + " mises à jour.");
+            System.out.println("Informations du passager avec l'identifiant " + identifiant + " met à jour.");
         } else {
             System.out.println("Passager avec l'identifiant " + identifiant + " non trouvé.");
         }
@@ -101,7 +101,7 @@ public class Passager extends Personne{
     public static void supprimerPassager(String identifiant) {
         if (passagers.containsKey(identifiant)) {
             passagers.remove(identifiant);
-            System.out.println("Passager avec l'identifiant " +identifiant + " supprimé");
+            System.out.println("Passager avec l'identifiant " +identifiant + " est supprimé");
         } else {
             System.out.println("Passager avec l'identifiant " + identifiant + " n'existe pas");
         }

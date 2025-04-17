@@ -59,9 +59,9 @@ public abstract class Personne {
     }
 
     public static Personne ajouterPersonne(Personne personne) {
-        if (!personnes.containsKey(personne.getIdentifiant())) {
+        if (personnes.containsKey(personne.getIdentifiant())) {
             personnes.put(personne.getIdentifiant(), personne);
-            System.out.println("Identifiant " + personne.getIdentifiant() + " ajoutée.");
+            System.out.println("Identifiant " + personne.getIdentifiant() + " est bien ajoutée.");
         } else {
             System.out.println("Erreur : " + personne.getIdentifiant() + " existe déjà.");
         }
@@ -70,7 +70,7 @@ public abstract class Personne {
 
     public static Personne chercherPersonne(String identifiant) {
         if (personnes.containsKey(identifiant)) {
-            System.out.println("Informations de l'identifiant : " + identifiant);
+            System.out.println("\n------- Informations de l'identifiant : " + identifiant + "---------");
             personnes.get(identifiant).obtenirInfos();
             return personnes.get(identifiant);
         } else {
@@ -86,7 +86,7 @@ public abstract class Personne {
             personneAModifier.adresse = nouvelleAdresse;
             personneAModifier.contact = nouveauContact;
             personnes.put(identifiant, personneAModifier);
-            System.out.println("Informations de l'identifiant : " + identifiant + " mise à jour");
+            System.out.println("Informations de l'identifiant : " + identifiant + " met à jour");
         } else {
             System.out.println("L'identifiant " + identifiant + " n'existe pas");
         }
@@ -95,7 +95,7 @@ public abstract class Personne {
     public static void supprimerPersonne(String identifiant) {
         if (personnes.containsKey(identifiant)) {
             personnes.remove(identifiant);
-            System.out.println("Informations de l'identifiant : " + identifiant + " supprimée");
+            System.out.println("Informations de l'identifiant : " + identifiant + " est supprimée");
         } else {
             System.out.println("L'identifiant " + identifiant + " n'existe pas");
         }

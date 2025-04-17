@@ -48,18 +48,18 @@ public class Aeroport {
     }
 
     public void afficherInfos() {
-        System.out.println("Informations de la aeroport : ");
+        System.out.println("\n ------ Informations de l'aeroport ---------");
         System.out.println("Nom : " + nom);
         System.out.println("Ville : " + ville);
         System.out.println("Description : " + description);
     }
 
     public static void ajouterAeroport(Aeroport aeroport) {
-        if (!aeroports.containsKey(aeroport.getNom())) {
+        if (aeroports.containsKey(aeroport.getNom())) {
             aeroports.put(aeroport.getNom(), aeroport);
-            System.out.println("Aéroport " + aeroport.getNom() + " ajouté");
+            System.out.println("Aéroport " + aeroport.getNom() + " est bien ajouté");
         } else {
-            System.out.println("Erreur : Un aeroport existe déjà");
+            System.out.println("Erreur : Un aeroport " + aeroport.getNom() + " existe déjà");
         }
     }
 
@@ -80,7 +80,7 @@ public class Aeroport {
             aeroportAModifier.ville = nouvelleVille;
             aeroportAModifier.description = nouvelleDescription;
             aeroports.put(nom, aeroportAModifier);
-            System.out.println("Informations de la aeroport : " + nom + "mise à jour");
+            System.out.println("Informations de la aeroport : " + nom + " met à jour");
         } else {
             System.out.println("Erreur : Aeroport n'existe pas");
         }
@@ -89,7 +89,7 @@ public class Aeroport {
     public static void supprimerAeroport(String nom) {
         if (aeroports.containsKey(nom)) {
             aeroports.remove(nom);
-            System.out.println("Aéroport " + nom + " supprimer");
+            System.out.println("Aéroport " + nom + " est supprimé");
         } else {
             System.out.println("Erreur : Aeroport n'existe pas");
         }

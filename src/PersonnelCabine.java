@@ -43,9 +43,9 @@ public class PersonnelCabine extends Employe {
     }
 
     public static void ajouterPersonnelCabine(PersonnelCabine personnelCabine) {
-        if (!personnelCabines.containsKey(personnelCabine.getIdentifiant())) {
+        if (personnelCabines.containsKey(personnelCabine.getIdentifiant())) {
             personnelCabines.put(personnelCabine.getIdentifiant(), personnelCabine);
-            System.out.println("Personnel de cabine " + personnelCabine.getIdentifiant() + " ajouté.");
+            System.out.println("Personnel de cabine " + personnelCabine.getIdentifiant() + " est bien ajouté.");
         } else {
             System.out.println("Erreur: Un personnel de cabine " + personnelCabine.getIdentifiant() + " existe déjà.");
         }
@@ -53,7 +53,7 @@ public class PersonnelCabine extends Employe {
 
     public static PersonnelCabine chercherPersonnelCabine(String identifiant) {
         if (personnelCabines.containsKey(identifiant)) {
-            System.out.println("Informations du Personnel de Cabine " + identifiant );
+            System.out.println("\n---------- Informations du Personnel de Cabine " + identifiant + "--------");
             personnelCabines.get(identifiant).obtenirInfos();
             return personnelCabines.get(identifiant);
         } else {
@@ -72,7 +72,7 @@ public class PersonnelCabine extends Employe {
             personnelCabineAModifier.setNumeroEmploye(nouveauNumeroEmploye); // Méthode héritée
             personnelCabineAModifier.qualification = nouvelleQualification;
             personnelCabines.put(identifiant, personnelCabineAModifier); // Mettre à jour dans la map
-            System.out.println("Informations du personnel de cabine " + identifiant + " mises à jour.");
+            System.out.println("Informations du personnel de cabine " + identifiant + " met à jour.");
         } else {
             System.out.println("Personnel de cabine " + identifiant + " non trouvé.");
         }
@@ -81,7 +81,7 @@ public class PersonnelCabine extends Employe {
     public static void supprimerPersonnelCabine(String identifiant) {
         if (personnelCabines.containsKey(identifiant)) {
             personnelCabines.remove(identifiant);
-            System.out.println("Personnel de cabine avec l'identifiant " + identifiant + " supprimé.");
+            System.out.println("Personnel de cabine avec l'identifiant " + identifiant + " est supprimé.");
         } else {
             System.out.println("Personnel de cabine avec l'identifiant " + identifiant + " non trouvé.");
         }

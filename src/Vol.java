@@ -149,11 +149,11 @@ public class Vol {
     public void annulerVol() {
         etat = "Annulé";
         vols.put(this.numeroVol, this);
-        System.out.println("Vol : " + numeroVol + "\nOrigine : " + origine + "\nDestination : " + destination);
+        System.out.println("Vol : " + numeroVol + "\nOrigine : " + origine + "\nDestination : " + destination + "\nEtat :" + etat);
     }
 
     public void ListingPassager(List<Reservation> reservations) {
-        System.out.println(" --- Passager du vol : " + numeroVol + " ----- ");
+        System.out.println("\n --- Passager du vol : " + numeroVol + " ----- ");
         boolean aucunePassager = true;
         for (Reservation reservation : reservations) {
             if (reservation.getVol() != null && reservation.getVol().getNumeroVol().equals(numeroVol)) {
@@ -193,7 +193,7 @@ public class Vol {
         System.out.println("Avion " + (avion != null ? avion.getImmatriculation() : "aucun") + " affecté au vol " + numeroVol);
     }
     public void obtenirVol() {
-        System.out.println(" --- Informations du Vol " + numeroVol + " ---");
+        System.out.println("\n --- Informations du Vol " + numeroVol + " ---");
         System.out.println("Numéro de Vol: " + numeroVol);
         System.out.println("Origine: " + origine);
         System.out.println("Destination: " + destination);
@@ -219,15 +219,15 @@ public class Vol {
     }
 
     public void listerVol() {
-        System.out.println(" --- Vol --- ");
+        System.out.println("\n --- Vol --- ");
         obtenirVol();
     }
 
     // Méthodes CRUD pour la classe Vol
     public static void ajouterVol(Vol vol) {
-        if (!vols.containsKey(vol.getNumeroVol())) {
+        if (vols.containsKey(vol.getNumeroVol())) {
             vols.put(vol.getNumeroVol(), vol);
-            System.out.println("Vol " + vol.getNumeroVol() + " ajouté.");
+            System.out.println("Vol " + vol.getNumeroVol() + " est bien ajouté.");
         } else {
             System.out.println("Erreur: Un vol avec le numéro " + vol.getNumeroVol() + " existe déjà.");
         }
@@ -258,7 +258,7 @@ public class Vol {
             volAModifier.aeroportArrivee = nouvelAeroportArrivee;
             volAModifier.prix = nouvellePrix;
             vols.put(numeroVol, volAModifier);
-            System.out.println("Informations du vol " + numeroVol + " mises à jour.");
+            System.out.println("Informations du vol " + numeroVol + " met à jour.");
         } else {
             System.out.println("Vol avec le numéro " + numeroVol + " non trouvé.");
         }
@@ -267,7 +267,7 @@ public class Vol {
     public static void supprimerVol(String numeroVol) {
         if (vols.containsKey(numeroVol)) {
             vols.remove(numeroVol);
-            System.out.println("Vol " + numeroVol + " supprimé.");
+            System.out.println("Vol " + numeroVol + " est supprimé.");
         } else {
             System.out.println("Vol avec le numéro " + numeroVol + " non trouvé.");
         }
@@ -275,7 +275,7 @@ public class Vol {
 
     // Statistiques
     public static void listerTousLesVols() {
-        System.out.println("----- Liste de Tous les Vols -----");
+        System.out.println("\n----- Liste de Tous les Vols -----");
         int numero = 1;
         for (Map.Entry<String, Vol> entry : vols.entrySet()) {
             System.out.println(numero + ". Vol " + entry.getValue().getNumeroVol() + " (" +
@@ -284,7 +284,7 @@ public class Vol {
             numero++;
         }
         if (vols.isEmpty()) {
-            System.out.println("Aucun vol n'est actuellement enregistré.");
+            System.out.println("Aucun vol n'est actuellement enregistré ");
         }
         System.out.println("----------------------------------");
     }

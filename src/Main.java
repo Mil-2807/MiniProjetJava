@@ -4,14 +4,13 @@ import java.util.Map;
 
 public class Main {
     private static List<Reservation> reservations = new ArrayList<>();
-    //private static List<Vol> volsPlanifies = new ArrayList<>();
 
     public static void main(String[] args) {
         // ------------ Personnes (hérité Pilote et Passager et PersonnelCabine)  -------------------
         // Création d'instances de Personnes
         // Ajouter des personnes
         System.out.println("----------- Méthode CRUD --------------");
-        System.out.println("----------- Personnes ---------------");
+        System.out.println("\n----------- Personnes ---------------");
         Pilote pilote1 = new Pilote("ECP511", "Milan Baskara", "15 rue des Champs-Elysées", "06 99 78 16 23", "EMP-ECP-511", "07-09-2015", "PPL-2024", 1250);
         Pilote.ajouterPilote(pilote1);
         Pilote.chercherPilote("ECP511");
@@ -69,7 +68,7 @@ public class Main {
 
         // ------------- Avion ----------------------
         // Création d'instances d'Avion
-        System.out.println("---------- Avion -----------");
+        System.out.println("\n---------- Avion -----------");
         Avion avion1 = new Avion("BO-485", "Boeing 737", 180);
         Avion avion2 = new Avion("AB-102", "Airbus A320", 150);
         Avion.ajouterAvion(avion1);
@@ -102,7 +101,7 @@ public class Main {
 
         // ------------------- Aeroport --------------------------
         // Création d'instances d'Aeroport
-        System.out.println("------- Aéroport ----------");
+        System.out.println("\n------- Aéroport ----------");
         Aeroport parisCDG = new Aeroport("Paris Charles de Gaulle", "Roissy", "Aeropoet Charles dde Gaules Terminal 1,2 et 3");
         Aeroport niceCoteDAzur = new Aeroport("Nice Côte d'Azur", "Nice", "Aéroport Côte d'Azur Terminal 1 et 2");
         Aeroport.ajouterAeroport(parisCDG);
@@ -130,7 +129,7 @@ public class Main {
 
         // -------------- Vol --------------------
         // Création d'instances de Vol
-        System.out.println("---------- Vol -------------");
+        System.out.println("\n---------- Vol -------------");
         Vol vol1 = new Vol("GB475", "Paris", "Nice", "2025-04-13 15:25", "2025-04-13 16:45", "Planifié", 550.50);
         vol1.setAeroportDepart(parisCDG);
         vol1.setAeroportArrivee(niceCoteDAzur);
@@ -172,7 +171,7 @@ public class Main {
         vol1.setPersonnelCabine(cabine1);
 
         // Un passager réserve un vol
-        System.out.println("-------- Réservation ----------");
+        System.out.println("\n-------- Réservation ----------");
         Reservation reservation1 = new Reservation("RES001", "2025-04-10", "En attente", passager1, vol1);
         Reservation.ajouterReservation(reservation1);
         reservations.add(reservation1);
@@ -203,14 +202,14 @@ public class Main {
         Reservation.chercherReservation("RES001");
 
         // --- Suppression de Resrvation --------------
-        System.out.println("--- Suppression de la Réservation RES003 ---");
+        System.out.println("\n--- Suppression de la Réservation RES003 ---");
         Reservation.supprimerReservation("RES003");
         reservations.removeIf(reservation -> reservation.getNumeroReservation().equals("RES003"));
         Reservation.chercherReservation("RES003"); // Tentative de recherche après suppression
 
 
-        System.out.println(" ------ Main ---------");
-        System.out.println(" ------ Reservations des personnes ---------");
+        System.out.println(" \n------ Main ---------");
+        System.out.println("\n ------ Reservations des personnes ---------");
 
         // Affecter un vol
         System.out.println("Aeroport : ");
@@ -236,13 +235,13 @@ public class Main {
         vol1.ListingPassager(reservations);
 
         // Lister un vol
-        System.out.println(" --- Liste de Vol ---");
+        System.out.println("\n --- Liste de Vol ---");
         vol1.listerVol();
         vol2.listerVol();
         vol3.listerVol();
 
         // Planifier du vol
-        System.out.println("--- Planifié du vol ----");
+        System.out.println("\n--- Planifié du vol ----");
         vol1.planifierVol();
         vol2.planifierVol();
         vol3.planifierVol();
@@ -294,7 +293,7 @@ public class Main {
             aeroportTrouve.afficherInfos();
         }
 
-        System.out.println( "------ Bonus ---------------");
+        System.out.println( "\n------ Bonus ---------------");
         // Affichage des statistiques et rapports
         System.out.println("\n----- Statistiques et Rapports -----");
         System.out.println("Nombre total de vols planifiés : " );

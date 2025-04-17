@@ -50,9 +50,9 @@ public class Pilote extends Employe{
     }
 
     public static void ajouterPilote(Pilote pilote) {
-        if (!pilotes.containsKey(pilote.getIdentifiant())) {
+        if (pilotes.containsKey(pilote.getIdentifiant())) {
             pilotes.put(pilote.getIdentifiant(), pilote);
-            System.out.println("Pilote " + pilote.getIdentifiant() + " ajouté");
+            System.out.println("Pilote " + pilote.getIdentifiant() + " est bien ajouté");
         } else {
             System.out.println("Erreur : Un pilote " + pilote.getIdentifiant() + " existe déjà");
         }
@@ -60,7 +60,7 @@ public class Pilote extends Employe{
 
     public static Pilote chercherPilote(String identifiant) {
         if (pilotes.containsKey(identifiant)) {
-            System.out.println("Information du pilote " +identifiant);
+            System.out.println("\n ------- Information du pilote " +identifiant + "---------");
             pilotes.get(identifiant).obtenirInfos();
             return pilotes.get(identifiant);
         } else {
@@ -80,7 +80,7 @@ public class Pilote extends Employe{
             piloteAModifier.licence = nouvelleLicence;
             piloteAModifier.heuresDeVol = nouvellesHeuresDeVol;
             pilotes.put(identifiant, piloteAModifier);
-            System.out.println("Pilote avec l'identifiant " + identifiant + " mises à jour.");
+            System.out.println("Pilote avec l'identifiant " + identifiant + " met à jour.");
         } else {
             System.out.println("Pilote avec l'identifiant " + identifiant + " n'existe pas.");
         }
@@ -89,7 +89,7 @@ public class Pilote extends Employe{
     public static void supprimerPilote(String identifiant) {
         if (pilotes.containsKey(identifiant)) {
             pilotes.remove(identifiant);
-            System.out.println("Pilote " + identifiant + " supprimé");
+            System.out.println("Pilote " + identifiant + " est supprimé");
         } else {
             System.out.println("Pilote " + identifiant + " n'existe pas");
         }

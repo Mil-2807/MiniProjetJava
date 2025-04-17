@@ -46,9 +46,9 @@ public class Employe extends Personne {
     }
 
     public static void ajouterEmploye(Employe employee) {
-        if (!employes.containsKey(employee.getIdentifiant())) {
+        if (employes.containsKey(employee.getIdentifiant())) {
             employes.put(employee.getIdentifiant(), employee);
-            System.out.println("Employé " + employee.getIdentifiant() + " ajouté");
+            System.out.println("Employé " + employee.getIdentifiant() + " est bien ajouté");
         } else {
             System.out.println("Erreur : l'employe " + employee.getIdentifiant() + " existe déjà");
         }
@@ -74,7 +74,7 @@ public class Employe extends Personne {
             employeAModifier.dateEmbauche = nouvelleDateEmbauche;
             employeAModifier.numeroEmploye = nouveauNumeroEmploye;
             employes.put(identifiant, employeAModifier);
-            System.out.println("Informations de l'employé avec l'identifiant " + identifiant + " mises à jour.");
+            System.out.println("Informations de l'employé avec l'identifiant " + identifiant + " met à jour.");
         } else {
             System.out.println("Employé avec l'identifiant " + identifiant + " non trouvé.");
         }
@@ -83,7 +83,7 @@ public class Employe extends Personne {
     public static void supprimerEmploye(String identifiant) {
         if (employes.containsKey(identifiant)) {
             employes.remove(identifiant);
-            System.out.println("Employe " + identifiant + " supprimé");
+            System.out.println("Employe " + identifiant + " est supprimé");
         } else {
             System.out.println("Erreur : l'employe n'existe pas");
         }
