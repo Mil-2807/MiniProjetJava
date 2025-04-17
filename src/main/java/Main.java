@@ -189,6 +189,8 @@ public class Main {
         // Affecter un équipage et un avion au vol
         vol1.setPilote(pilote1);
         vol1.setPersonnelCabine(cabine1);
+        vol2.setPilote(pilote1);
+        vol2.setPersonnelCabine(cabine1);
 
         // Un passager réserve un vol
         System.out.println("\n-------- Réservation ----------");
