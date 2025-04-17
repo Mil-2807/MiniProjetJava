@@ -14,9 +14,17 @@ public class Main {
         Pilote pilote1 = new Pilote("ECP511", "Milan Baskara", "15 rue des Champs-Elysées", "06 99 78 16 23", "EMP-ECP-511", "07-09-2015", "PPL-2024", 1250);
         Pilote.ajouterPilote(pilote1);
         Pilote.chercherPilote("ECP511");
-        Pilote pilote2 = new Pilote("EMP018", "Sophie Maillé", "82 rue de Paris", "07 43 56 57 00", "EMP-PIL-018", "2019-01-15", "CPL-2022", 1300);
+        Pilote pilote2 = new Pilote("EMP018", "Sophie Maillé", "82 rue de Paris", "07 43 56 57 00", "EMP-PIL-018", "15-01-2019", "CPL-2022", 1300);
         Pilote.ajouterPilote(pilote2);
         Pilote.chercherPilote("EMP018");
+
+        Employe employe1 = new Employe("EMP845", "Karim Elamrani", "18 Boulevard de la Seine", "07 45 11 25 48", "EMP-845", "18-02-2017");
+        Employe.ajouterEmploye(employe1);
+        Employe.chercherEmploye("EMP845");
+        Employe employe2 = new Employe("EMP213", "Daniel Débré", "121 avenue de Voltaire", "06 45 88 00 02", "EMP-213", "31-08-2009");
+        Employe.ajouterEmploye(employe2);
+        Employe.chercherEmploye("EMP213");
+
 
         PersonnelCabine cabine1 = new PersonnelCabine("CAB148", "Alice Bourjoin", "48 avenue de Pigalle", "06 54 24 58 58", "EMP-CAB-148", "30-04-2000", "CCA");
         PersonnelCabine cabine2 = new PersonnelCabine("CAB149", "Ousmann Mamadou", "88 Bouleavard de Jules Ferry", "06 15 15 44 71", "EMP-CAB-149","11-10-2010", "CCA confirmé");
@@ -36,22 +44,30 @@ public class Main {
         PersonnelCabine.ajouterPersonnelCabine(cabine3);
         PersonnelCabine.chercherPersonnelCabine("CAB541");
 
-        Passager passager3 = new Passager("PAS056", "Karim Elramani", "14 rue des Vanves", "07 15 85 00 63", "AZ9876");
+        Passager passager3 = new Passager("PAS056", "Valetin Pasquier", "14 rue des Vanves", "07 15 85 00 63", "AZ9876");
         Passager.ajouterPassager(passager3);
         Passager.chercherPassager("PAS056");
 
         // Modifier les personnes
         System.out.println(" --- Modification du Pilote ECP511 (Milan Baskara) ---");
-        Pilote.modifierPilote("ECP511", "Milan Baskara", "210 avenue de la Stalingrad", "06 65 78 10 12", "2016-03-01", "EMP-ECP-511", "PPL-2026", 1650);
+        Pilote.modifierPilote("ECP511", "Milan Baskara", "210 avenue de la Stalingrad", "06 65 78 10 12", "01-03-20196", "EMP-ECP-511", "PPL-2026", 1650);
         Pilote.chercherPilote("ECP511");
 
         System.out.println(" --- Modification du Personnel Cabine CAB148 (Alice Bourjoin) ---");
-        PersonnelCabine.modifierPersonnelCabine("CAB148", "Alice Bourjoin", "48 avenue de Pigalle", "07 22 20 74 78", "2015-09-10" , "EMP-CAB-148", "CCA senior");
+        PersonnelCabine.modifierPersonnelCabine("CAB148", "Alice Bourjoin", "48 avenue de Pigalle", "07 22 20 74 78", "10-09-2015" , "EMP-CAB-148", "CCA senior");
         PersonnelCabine.chercherPersonnelCabine("CAB148");
 
         System.out.println(" --- Modification du Passager PAS123 (Alice Dupont-Martin) ---");
         Passager.modifierPassager("PAS123", "Alice Ferié", "8 rue de Paradis", "06 45 16 86 00", "PO7125");
         Passager.chercherPassager("PAS123");
+
+        System.out.println(" --- Modification d'un Employé EMP845 (Karim Elamrani) ---");
+        Employe.modifierEmploye("EMP845", "Karim Elamrani", "14 rue de la Station", "07 91 14 21 63","18-02-2017", "EMP-845");
+        Employe.chercherEmploye("EMP845");
+
+        System.out.println(" --- Modification d'un Employé EMP213 (Daniel Débré) ---");
+        Employe.modifierEmploye("EMP213", "Daniel Débré", "21 boulevard de Solferino", "07 91 14 21 63","21-09-2021", "EMP-213");
+        Employe.chercherEmploye("EMP213");
 
         // Supprimer les personnes
         String idPiloteSupprimer = "EMP018";
@@ -65,6 +81,10 @@ public class Main {
         String idPassagerSupprimer = "PAS056";
         Passager.supprimerPassager(idPassagerSupprimer);
         Passager.chercherPassager(idPassagerSupprimer);
+
+        String idEmployerSupprimer = "EMP213";
+        Employe.supprimerEmploye(idEmployerSupprimer);
+        Employe.chercherEmploye(idEmployerSupprimer);
 
         // ------------- Avion ----------------------
         // Création d'instances d'Avion
@@ -102,7 +122,7 @@ public class Main {
         // ------------------- Aeroport --------------------------
         // Création d'instances d'Aeroport
         System.out.println("\n------- Aéroport ----------");
-        Aeroport parisCDG = new Aeroport("Paris Charles de Gaulle", "Roissy", "Aeropoet Charles dde Gaules Terminal 1,2 et 3");
+        Aeroport parisCDG = new Aeroport("Paris Charles de Gaulle", "Roissy", "Aeroport International de Charles de Gaules Terminal 1,2 et 3");
         Aeroport niceCoteDAzur = new Aeroport("Nice Côte d'Azur", "Nice", "Aéroport Côte d'Azur Terminal 1 et 2");
         Aeroport.ajouterAeroport(parisCDG);
         Aeroport.chercherAeroport("Paris Charles de Gaulle");
@@ -130,7 +150,7 @@ public class Main {
         // -------------- Vol --------------------
         // Création d'instances de Vol
         System.out.println("\n---------- Vol -------------");
-        Vol vol1 = new Vol("GB475", "Paris", "Nice", "2025-04-13 15:25", "2025-04-13 16:45", "Planifié", 550.50);
+        Vol vol1 = new Vol("GB475", "Paris", "Nice", "13-04-2025 15:25", "13-04-2025 16:45", "Planifié", 550.50);
         vol1.setAeroportDepart(parisCDG);
         vol1.setAeroportArrivee(niceCoteDAzur);
         Vol.ajouterVol(vol1);
@@ -139,13 +159,13 @@ public class Main {
         // --- Ajouter un vol ------------
         Aeroport londresHeathrow = new Aeroport("London Heathrow", "Londres", "Principal aéroport de Londres");
         Aeroport.ajouterAeroport(londresHeathrow);
-        Vol vol2 = new Vol("AF104", "Paris", "Lyon", "2025-04-10 09:00", "2025-04-10 09:30", "Planifié", 415.75);
+        Vol vol2 = new Vol("AF104", "Paris", "Lyon", "10-04-2025 09:00", "10-04-2025 09:30", "Planifié", 415.75);
         vol2.setAeroportDepart(parisCDG);
         vol2.setAeroportArrivee(lyonSaintExupery);
         Vol.ajouterVol(vol2);
         Vol.chercherVol("AF104");
 
-        Vol vol3 = new Vol("BA308", "Lyon", "Londres", "2025-04-11 11:00", "2025-04-11 14:00", "Planifié", 695.75);
+        Vol vol3 = new Vol("BA308", "Lyon", "Londres", "12-04-2025 11:00", "12-04-2025 14:00", "Planifié", 695.75);
         vol3.setAeroportDepart(lyonSaintExupery);
         vol3.setAeroportArrivee(londresHeathrow);
         Vol.ajouterVol(vol3);
@@ -153,11 +173,11 @@ public class Main {
 
         // Modifier le vol
         System.out.println(" --- Modification du Vol GB475 ---");
-        Vol.modifierVol("GB475", "Paris", "Nice", "2025-04-13 16:00", "2025-04-13 17:15", "Retard", 450.00, Pilote.chercherPilote("ECP511"), PersonnelCabine.chercherPersonnelCabine("CAB148"), Avion.chercherAvion("BO-485"), Aeroport.chercherAeroport("CDG"), Aeroport.chercherAeroport("NCE"));
+        Vol.modifierVol("GB475", "Paris", "Nice", "13-04-2025 16:00", "13-04-2025 17:15", "Retard", 450.00, Pilote.chercherPilote("ECP511"), PersonnelCabine.chercherPersonnelCabine("CAB148"), Avion.chercherAvion("BO-485"), Aeroport.chercherAeroport("CDG"), Aeroport.chercherAeroport("NCE"));
         Vol.chercherVol("GB475");
 
         System.out.println(" --- Modification du Vol AF104 ---");
-        Vol.modifierVol("AF104", "Paris", "Londres", "2025-04-17 09:30", "2025-04-17 10:00", "À l'heure", 685.75, Vol.chercherVol("AF104").getPilote(), Vol.chercherVol("AF104").getPersonnelCabine(), Vol.chercherVol("AF104").getAvion(), Vol.chercherVol("AF104").getAeroportDepart(), Aeroport.chercherAeroport("Londres Heathrow"));
+        Vol.modifierVol("AF104", "Paris", "Londres", "17-04-2025 09:30", "17-04-2025 10:00", "À l'heure", 685.75, Vol.chercherVol("AF104").getPilote(), Vol.chercherVol("AF104").getPersonnelCabine(), Vol.chercherVol("AF104").getAvion(), Vol.chercherVol("AF104").getAeroportDepart(), Aeroport.chercherAeroport("Londres Heathrow"));
         Vol.chercherVol("AF104");
 
         //---- Supprimer le vol --------------
@@ -172,12 +192,12 @@ public class Main {
 
         // Un passager réserve un vol
         System.out.println("\n-------- Réservation ----------");
-        Reservation reservation1 = new Reservation("RES001", "2025-04-10", "En attente", passager1, vol1);
+        Reservation reservation1 = new Reservation("RES001", "10-03-2025", "En attente", passager1, vol1);
         Reservation.ajouterReservation(reservation1);
         reservations.add(reservation1);
 
         // ---- Ajouter la réservation --------------
-        Reservation reservation2 = new Reservation("RES002", "2025-04-16", "En attente", passager2, vol2);
+        Reservation reservation2 = new Reservation("RES002", "18-03-2025", "En attente", passager2, vol2);
         Reservation.ajouterReservation(reservation2);
         reservations.add(reservation2);
         Reservation.chercherReservation("RES002");
@@ -186,7 +206,7 @@ public class Main {
         Passager.ajouterPassager(passager4);
         Vol.chercherVol("GB475"); // Assurez-vous qu'il existe
 
-        Reservation reservation3 = new Reservation("RES003", "2025-04-16", "Confirmée", passager4, vol3);
+        Reservation reservation3 = new Reservation("RES003", "16-03-2025", "Confirmée", passager4, vol3);
         Reservation.ajouterReservation(reservation3);
         reservations.add(reservation3);
         System.out.println("Réservation ajoutée : " + reservation3.getNumeroReservation() + " (Passager: " + reservation3.getPassager().getNom() + ", Vol: " + (reservation3.getVol() != null ? reservation3.getVol().getNumeroVol() : "null") + ")");
@@ -194,11 +214,11 @@ public class Main {
 
         // ----- Modifier la réservation -----------
         System.out.println("\n--- Modification de la Réservation RES002 ---");
-        Reservation.modifierReservation("RES002","2025-04-19", "Confirmée", passager4, vol1);
+        Reservation.modifierReservation("RES002","18-03-2025", "Confirmée", passager4, vol1);
         Reservation.chercherReservation("RES002");
 
         System.out.println("\n--- Modification de la Réservation RES001 ---");
-        Reservation.modifierReservation("RES001","2025-04-18", "Retard", passager2, vol2);
+        Reservation.modifierReservation("RES001","10-03-2025", "Retard", passager2, vol2);
         Reservation.chercherReservation("RES001");
 
         // --- Suppression de Resrvation --------------
