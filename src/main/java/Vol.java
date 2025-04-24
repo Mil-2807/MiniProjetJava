@@ -1,9 +1,15 @@
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Vol {
     private String numeroVol;
@@ -221,6 +227,58 @@ public class Vol {
     public void listerVol() {
         System.out.println("\n --- Vol --- ");
         obtenirVol();
+    }
+
+
+    public static List<Vol> readVolsFromFile(String filePath, List<Avion> avions) {
+        List<Vol> vols = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            reader.readLine(); // Skip header
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split("\\|");
+                if (data.length == 8) {
+                    Vol vol = new Vol(data[0],data[1],data[2],data[3],data[4],data[5], Double.parseDouble(data[6]));
+                    vol.setNumeroVol(data[0].trim());
+                    vol.setOrigine(data[1].trim());
+                    vol.setDestination(data[2].trim());
+                    vol.setDateHeureDepart(data[3].trim());
+                    vol.setDateHeureArrivee(data[4].trim());
+                    vol.setEtat(data[5].trim());
+                    vol.setPrix(Double.parseDouble(data[6].trim()));
+                    String avionImmatriculation = data[7].trim();
+                    Avion avion = findAvionByImmatriculation(avions, avionImmatriculation);
+                    vol.setAvion(avion);
+                    vols.add(vol);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading Vols: " + e.getMessage());
+        }
+        return vols;
+    }
+
+    private static Avion findAvionByImmatriculation(List<Avion> avions, String immatriculation) {
+        for (Avion avion : avions) {
+            if (avion.getImmatriculation().equals(immatriculation)) {
+                return avion;
+            }
+        }
+        return null; // Handle case where Avion is not found
+    }
+
+    public static void writeVolsToFile(String filePath, List<Vol> vols) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write("NumeroVol|Origine|Destination|HeureDepart|HeureArrivee|Prix|Etat|AvionImmatriculation\n"); // Header
+            for (Vol vol : vols) {
+                String avionImmatriculation = (vol.getAvion() != null) ? vol.getAvion().getImmatriculation() : ""; // Handle null Avion
+                writer.write(vol.getNumeroVol() + "|" + vol.getOrigine() + "|" + vol.getDestination() + "|" +
+                        vol.getDateHeureDepart() + "|" + vol.getDateHeureArrivee() + "|" + vol.getPrix() + "|" +
+                        vol.getEtat() + "|" + avionImmatriculation + "\n");
+            }
+        } catch (IOException e) {
+            System.err.println("Error writing Vols: " + e.getMessage());
+        }
     }
 
     // Méthodes CRUD pour la classe Vol

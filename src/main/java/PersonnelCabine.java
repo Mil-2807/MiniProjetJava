@@ -1,5 +1,12 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class PersonnelCabine extends Employe {
     private String qualification;
@@ -40,6 +47,45 @@ public class PersonnelCabine extends Employe {
         super.obtenirInfos();
         System.out.println("Informations du personnel de cabine " + getNom() + ".");
         System.out.println("Qualification: " + qualification);
+    }
+
+    public static List<PersonnelCabine> readPersonnelCabineFromFile(String filePath) {
+        List<PersonnelCabine> personnelCabines = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            reader.readLine(); // Skip header
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split("\\|");
+                if (data.length == 7) {
+                    PersonnelCabine personnelCabine = new PersonnelCabine(data[0], data[1], data[2], data[3], data[4], data[5], data[6]);
+                    personnelCabine.setIdentifiant(data[0].trim());
+                    personnelCabine.setNom(data[1].trim());
+                    personnelCabine.setAdresse(data[2].trim());
+                    personnelCabine.setContact(data[3].trim());
+                    personnelCabine.setNumeroEmploye(data[4].trim());
+                    personnelCabine.setDateEmbauche(data[5].trim());
+                    personnelCabine.setQualification(data[6].trim());
+                    personnelCabines.add(personnelCabine);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading PersonnelCabine: " + e.getMessage());
+        }
+        return personnelCabines;
+    }
+
+    public static void writePersonnelCabineToFile(String filePath, List<PersonnelCabine> personnelCabines) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write("Identifiant|Nom|Adresse|Contact|NumeroEmploye|DateEmbauche|Qualification\n"); // Header
+            for (PersonnelCabine personnelCabine : personnelCabines) {
+                writer.write(personnelCabine.getIdentifiant() + "|" + personnelCabine.getNom() + "|" +
+                        personnelCabine.getAdresse() + "|" + personnelCabine.getContact() + "|" +
+                        personnelCabine.getNumeroEmploye() + "|" + personnelCabine.getDateEmbauche() + "|" +
+                        personnelCabine.getQualification() + "\n");
+            }
+        } catch (IOException e) {
+            System.err.println("Error writing PersonnelCabine: " + e.getMessage());
+        }
     }
 
     public static void ajouterPersonnelCabine(PersonnelCabine personnelCabine) {

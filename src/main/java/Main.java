@@ -333,5 +333,35 @@ public class Main {
                 break;
             }
         }
+
+
+        //-------------------- Fichier .csv ---------------
+        String pilotesFilePath = "pilotes.csv";
+        String employesFilePath = "employes.csv";
+        String cabinesFilePath = "cabines.csv";
+        String passagersFilePath = "passagers.csv";
+        String avionsFilePath = "avions.csv";
+        String aeroportsFilePath = "aeroports.csv";
+        String volsFilePath = "vols.csv";
+        String reservationsFilePath = "reservations.csv";
+
+        List<Pilote> pilotes = Pilote.readPilotesFromFile(pilotesFilePath);
+        List<Employe> employes = Employe.readEmployesFromFile(employesFilePath);
+        List<PersonnelCabine> cabines = PersonnelCabine.readPersonnelCabineFromFile(cabinesFilePath);
+        List<Passager> passagers = Passager.readPassagersFromFile(passagersFilePath);
+        List<Avion> avions = Avion.readAvionsFromFile(avionsFilePath);
+        List<Aeroport> aeroports = Aeroport.readAeroportsFromFile(aeroportsFilePath);
+        List<Vol> vols = Vol.readVolsFromFile(volsFilePath, avions); // Important: Pass the lists!
+        List<Reservation> reservations = Reservation.readReservationsFromFile(reservationsFilePath, passagers, vols);
+
+
+        Pilote.writePilotesToFile(pilotesFilePath, pilotes);
+        Employe.writeEmployesToFile(employesFilePath, employes);
+        PersonnelCabine.writePersonnelCabineToFile(cabinesFilePath, cabines);
+        Passager.writePassagersToFile(passagersFilePath, passagers);
+        Avion.writeAvionsToFile(avionsFilePath, avions);
+        Aeroport.writeAeroportsToFile(aeroportsFilePath, aeroports);
+        Vol.writeVolsToFile(volsFilePath, vols);
+        Reservation.writeReservationsToFile(reservationsFilePath, reservations);
     }
 }

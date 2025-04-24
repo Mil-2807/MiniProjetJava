@@ -1,5 +1,12 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Pilote extends Employe{
 
@@ -29,6 +36,11 @@ public class Pilote extends Employe{
         pilotes.put(this.getIdentifiant(), this);
     }
 
+    public void setLicence(String licence) {
+        this.licence = licence;
+        pilotes.put(this.getIdentifiant(), this);
+    }
+
     public void affecterVol() {
         System.out.println("Le pilote " + getNom() +" a été affecté au vol ");
     }
@@ -48,6 +60,48 @@ public class Pilote extends Employe{
         System.out.println("Licence: " + licence);
         System.out.println("Heures de vol: " + heuresDeVol);
     }
+
+
+    public static List<Pilote> readPilotesFromFile(String filePath) {
+        List<Pilote> pilotes = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            reader.readLine(); // Skip header
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split("\\|");
+                if (data.length == 8) {
+                    Pilote pilote = new Pilote(data[0], data[1], data[2], data[3], data[4], data[5], data[6], Integer.parseInt(data[7]));
+                    pilote.setIdentifiant(data[0].trim());
+                    pilote.setNom(data[1].trim());
+                    pilote.setAdresse(data[2].trim());
+                    pilote.setContact(data[3].trim());
+                    pilote.setNumeroEmploye(data[4].trim());
+                    pilote.setDateEmbauche(data[5].trim());
+                    pilote.setLicence(data[6].trim());
+                    pilote.setHeuresDeVol(Integer.parseInt(data[7].trim()));
+                    pilotes.add(pilote);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading Pilotes: " + e.getMessage());
+        }
+        return pilotes;
+    }
+
+    public static void writePilotesToFile(String filePath, List<Pilote> pilotes) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write("Identifiant|Nom|Adresse|Contact|NumeroEmploye|DateEmbauche|Licence|HeuresDeVol\n"); // Header
+            for (Pilote pilote : pilotes) {
+                writer.write(pilote.getIdentifiant() + "|" + pilote.getNom() + "|" +
+                        pilote.getAdresse() + "|" + pilote.getContact() + "|" +
+                        pilote.getNumeroEmploye() + "|" + pilote.getDateEmbauche() + "|" +
+                        pilote.getLicence() + "|" + pilote.getHeuresDeVol() + "\n");
+            }
+        } catch (IOException e) {
+            System.err.println("Error writing Pilotes: " + e.getMessage());
+        }
+    }
+
 
     public static void ajouterPilote(Pilote pilote) {
         if (pilotes.containsKey(pilote.getIdentifiant())) {

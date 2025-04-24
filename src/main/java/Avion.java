@@ -1,5 +1,12 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Avion {
     private String immatriculation;
@@ -80,6 +87,39 @@ public class Avion {
             System.out.println("Vol Affecté: " + volAffecte.getNumeroVol());
         } else {
             System.out.println("Vol Affecté: Aucun");
+        }
+    }
+
+    public static List<Avion> readAvionsFromFile(String filePath) {
+        List<Avion> avions = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            reader.readLine(); // Skip header
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split("\\|");
+                if (data.length == 3) {
+                    Avion avion = new Avion(data[0], data[1], Integer.parseInt(data[2]));
+                    avion.setImmatriculation(data[0].trim());
+                    avion.setModele(data[1].trim());
+                    avion.setCapacite(Integer.parseInt(data[2].trim()));
+                    avions.add(avion);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading Avions: " + e.getMessage());
+        }
+        return avions;
+    }
+
+    public static void writeAvionsToFile(String filePath, List<Avion> avions) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write("Immatriculation|Modele|Capacite\n"); // Header
+            for (Avion avion : avions) {
+                writer.write(avion.getImmatriculation() + "|" + avion.getModele() + "|" +
+                        avion.getCapacite() + "\n");
+            }
+        } catch (IOException e) {
+            System.err.println("Error writing Avions: " + e.getMessage());
         }
     }
 

@@ -2,6 +2,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Passager extends Personne{
     private String passeport;
@@ -62,6 +67,42 @@ public class Passager extends Personne{
         super.obtenirInfos();
         System.out.println("Passeport: " + passeport);
         System.out.println("Vols Reserve: " + volsReserve);
+    }
+
+    public static List<Passager> readPassagersFromFile(String filePath) {
+        List<Passager> passagers = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            reader.readLine(); // Skip header
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split("\\|");
+                if (data.length == 5) {
+                    Passager passager = new Passager(data[0], data[1], data[2], data[3], data[4]);
+                    passager.setIdentifiant(data[0].trim());
+                    passager.setNom(data[1].trim());
+                    passager.setAdresse(data[2].trim());
+                    passager.setContact(data[3].trim());
+                    passager.setPasseport(data[4].trim());
+                    passagers.add(passager);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading Passagers: " + e.getMessage());
+        }
+        return passagers;
+    }
+
+    public static void writePassagersToFile(String filePath, List<Passager> passagers) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write("Identifiant|Nom|Adresse|Contact|Passeport\n"); // Header
+            for (Passager passager : passagers) {
+                writer.write(passager.getIdentifiant() + "|" + passager.getNom() + "|" +
+                        passager.getAdresse() + "|" + passager.getContact() + "|" +
+                        passager.getPasseport() + "\n");
+            }
+        } catch (IOException e) {
+            System.err.println("Error writing Passagers: " + e.getMessage());
+        }
     }
 
     public static void ajouterPassager(Passager passager) {

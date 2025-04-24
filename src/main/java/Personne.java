@@ -1,5 +1,12 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public abstract class Personne {
     private String identifiant;
@@ -34,6 +41,11 @@ public abstract class Personne {
         return contact;
     }
 
+    public void setIdentifiant(String identifiant) {
+        this.identifiant = identifiant;
+        personnes.put(this.identifiant, this);
+    }
+
     public void setNom(String nom) {
         this.nom = nom;
         personnes.put(this.identifiant, this);
@@ -56,6 +68,40 @@ public abstract class Personne {
         System.out.println("Nom: " + this.nom);
         System.out.println("Adresse: " + this.adresse);
         System.out.println("Contact: " + this.contact);
+    }
+
+    public static List<Personne> readPersonnesFromFile(String filePath) {
+        List<Personne> personnes = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            reader.readLine(); // Skip header
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split("\\|");
+                if (data.length == 4) {
+                    Personne personne = null;
+                    personne.setIdentifiant(data[0].trim());
+                    personne.setNom(data[1].trim());
+                    personne.setAdresse(data[2].trim());
+                    personne.setContact(data[3].trim());
+                    personnes.add(personne);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading Personnes: " + e.getMessage());
+        }
+        return personnes;
+    }
+
+    public static void writePersonnesToFile(String filePath, List<Personne> personnes) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write("Identifiant|Nom|Adresse|Contact\n"); // Header
+            for (Personne personne : personnes) {
+                writer.write(personne.getIdentifiant() + "|" + personne.getNom() + "|" +
+                        personne.getAdresse() + "|" + personne.getContact() + "\n");
+            }
+        } catch (IOException e) {
+            System.err.println("Error writing Personnes: " + e.getMessage());
+        }
     }
 
     public static Personne ajouterPersonne(Personne personne) {

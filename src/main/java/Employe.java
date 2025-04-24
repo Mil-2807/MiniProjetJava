@@ -1,5 +1,12 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Employe extends Personne {
     private String numeroEmploye;
@@ -43,6 +50,43 @@ public class Employe extends Personne {
         super.obtenirInfos();
         System.out.println("Numéro Employé: " + this.numeroEmploye);
         System.out.println("Date d'Embauche: " + this.dateEmbauche);
+    }
+
+    public static List<Employe> readEmployesFromFile(String filePath) {
+        List<Employe> employes = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            reader.readLine(); // Skip header
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split("\\|");
+                if (data.length == 6) {
+                    Employe employelecture = new Employe(data[0], data[1], data[2], data[3], data[4], data[5]);
+                    employelecture.setIdentifiant(data[0].trim());
+                    employelecture.setNom(data[1].trim());
+                    employelecture.setAdresse(data[2].trim());
+                    employelecture.setContact(data[3].trim());
+                    employelecture.setNumeroEmploye(data[4].trim());
+                    employelecture.setDateEmbauche(data[5].trim());
+                    employes.add(employelecture);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading Employes: " + e.getMessage());
+        }
+        return employes;
+    }
+
+    public static void writeEmployesToFile(String filePath, List<Employe> employes) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write("Identifiant|Nom|Adresse|Contact|NumeroEmploye|DateEmbauche\n"); // Header
+            for (Employe employe : employes) {
+                writer.write(employe.getIdentifiant() + "|" + employe.getNom() + "|" +
+                        employe.getAdresse() + "|" + employe.getContact() + "|" +
+                        employe.getNumeroEmploye() + "|" + employe.getDateEmbauche() + "\n");
+            }
+        } catch (IOException e) {
+            System.err.println("Error writing Employes: " + e.getMessage());
+        }
     }
 
     public static void ajouterEmploye(Employe employee) {
