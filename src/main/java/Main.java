@@ -122,16 +122,16 @@ public class Main {
         // ------------------- Aeroport --------------------------
         // Création d'instances d'Aeroport
         System.out.println("\n------- Aéroport ----------");
-        Aeroport parisCDG = new Aeroport("Paris Charles de Gaulle", "Roissy", "Aeroport International de Charles de Gaules Terminal 1,2 et 3");
-        Aeroport niceCoteDAzur = new Aeroport("Nice Côte d'Azur", "Nice", "Aéroport Côte d'Azur Terminal 1 et 2");
+        Aeroport parisCDG = new Aeroport("CDG","Paris Charles de Gaulle", "Roissy", "Aeroport International de Charles de Gaules Terminal 1,2 et 3");
+        Aeroport niceCoteDAzur = new Aeroport("NCA","Nice Côte d'Azur", "Nice", "Aéroport Côte d'Azur Terminal 1 et 2");
         Aeroport.ajouterAeroport(parisCDG);
         Aeroport.chercherAeroport("Paris Charles de Gaulle");
         Aeroport.ajouterAeroport(niceCoteDAzur);
         Aeroport.chercherAeroport("Nice Côte d'Azur");
 
         // Ajouter d'un aéroport
-        Aeroport lyonSaintExupery = new Aeroport("Lyon Saint-Exupéry", "Lyon", "Aéroport de la région Rhône-Alpes");
-        Aeroport orly = new Aeroport("Paris-Orly", "Orly", "un aéroport international situé à 10 km au sud de Paris");
+        Aeroport lyonSaintExupery = new Aeroport("LSE","Lyon Saint-Exupéry", "Lyon", "Aéroport de la région Rhône-Alpes");
+        Aeroport orly = new Aeroport("PAO","Paris-Orly", "Orly", "un aéroport international situé à 10 km au sud de Paris");
         Aeroport.ajouterAeroport(lyonSaintExupery);
         Aeroport.ajouterAeroport(orly);
         Aeroport.chercherAeroport("Lyon Saint-Exupéry");
@@ -157,7 +157,7 @@ public class Main {
         Vol.chercherVol("GB475");
 
         // --- Ajouter un vol ------------
-        Aeroport londresHeathrow = new Aeroport("London Heathrow", "Londres", "Principal aéroport de Londres");
+        Aeroport londresHeathrow = new Aeroport("LOH","London Heathrow", "Londres", "Principal aéroport de Londres");
         Aeroport.ajouterAeroport(londresHeathrow);
         Vol vol2 = new Vol("AF104", "Paris", "Lyon", "10-04-2025 09:00", "10-04-2025 09:30", "Planifié", 415.75);
         vol2.setAeroportDepart(parisCDG);

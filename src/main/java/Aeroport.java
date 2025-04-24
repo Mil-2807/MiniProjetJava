@@ -2,6 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Aeroport {
+    private String code;
     private String nom;
     private String ville;
     private String description;
@@ -9,11 +10,21 @@ public class Aeroport {
     //Gestion CRUD
     private static Map<String, Aeroport> aeroports = new HashMap<>();
 
-    public Aeroport(String nom, String ville, String description) {
+    public Aeroport(String code, String nom, String ville, String description) {
+        this.code = code;
         this.nom = nom;
         this.ville = ville;
         this.description = description;
         aeroports.put(nom, this);
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+        aeroports.put(code, this);
     }
 
     public String getNom() {
@@ -49,6 +60,7 @@ public class Aeroport {
 
     public void afficherInfos() {
         System.out.println("\n ------ Informations de l'aeroport ---------");
+        System.out.println("Code : " + code);
         System.out.println("Nom : " + nom);
         System.out.println("Ville : " + ville);
         System.out.println("Description : " + description);
