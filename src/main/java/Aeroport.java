@@ -22,7 +22,7 @@ public class Aeroport {
         this.nom = nom;
         this.ville = ville;
         this.description = description;
-        aeroports.put(nom, this);
+        aeroports.put(code, this);
     }
 
     public String getCode() {
@@ -126,14 +126,15 @@ public class Aeroport {
         }
     }
 
-    public static void modifierAeroport(String nom, String nouveauNom, String nouvelleVille, String nouvelleDescription) {
-        if (aeroports.containsKey(nom)) {
-            Aeroport aeroportAModifier = aeroports.get(nom);
+    public static void modifierAeroport(String code, String nouveauCode, String nouveauNom, String nouvelleVille, String nouvelleDescription) {
+        if (aeroports.containsKey(code)) {
+            Aeroport aeroportAModifier = aeroports.get(code);
+            aeroportAModifier.code = nouveauCode;
             aeroportAModifier.nom = nouveauNom;
             aeroportAModifier.ville = nouvelleVille;
             aeroportAModifier.description = nouvelleDescription;
-            aeroports.put(nom, aeroportAModifier);
-            System.out.println("Informations de la aeroport : " + nom + " met à jour");
+            aeroports.put(code, aeroportAModifier);
+            System.out.println("Informations de la aeroport : " + code + " met à jour");
         } else {
             System.out.println("Erreur : Aeroport n'existe pas");
         }
