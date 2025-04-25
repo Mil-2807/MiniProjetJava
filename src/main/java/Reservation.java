@@ -27,62 +27,49 @@ public class Reservation {
         reservations.put(numeroReservation, this);
     }
 
-    public static List<Reservation> readReservationsFromFile(String filePath, List<Passager> passagers, List<Vol> vols) {
-        List<Reservation> reservations = new ArrayList<>();
+    public static void lireReservations(String filePath, Map<String, Passager> passagersMap, Map<String, Vol> volsMap) {
+        reservations.clear();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             reader.readLine(); // Skip header
             while ((line = reader.readLine()) != null) {
-                String[] data = line.split("\\|");
+                String[] data = line.split(",");
                 if (data.length == 5) {
-                    Reservation reservation = new Reservation(data[0], data[1], data[2], passagers.get(Integer.parseInt(data[3])), vols.get(Integer.parseInt(data[4])));
-                    reservation.setNumeroReservation(data[0].trim());
-                    reservation.setDateReservation(data[1].trim());
-                    reservation.setStatut(data[2].trim());
+                    String numeroReservation = data[0].trim();
+                    String dateReservation = data[1].trim();
+                    String statut = data[2].trim();
                     String passagerIdentifiant = data[3].trim();
-                    Passager passager = findPassagerByIdentifiant(passagers, passagerIdentifiant);
-                    reservation.setPassager(passager);
                     String volNumero = data[4].trim();
-                    Vol vol = findVolByNumero(vols, volNumero);
-                    reservation.setVol(vol);
-                    reservations.add(reservation);
+
+                    Passager passager = passagersMap.get(passagerIdentifiant);
+                    Vol vol = volsMap.get(volNumero);
+
+                    if (passager != null && vol != null) {
+                        new Reservation(numeroReservation, dateReservation, statut, passager, vol);
+                    } else {
+                        System.err.println("Erreur : Passager (ID: " + passagerIdentifiant + ") ou Vol (N°: " + volNumero + ") non trouvé pour la réservation : " + numeroReservation);
+                    }
+                } else {
+                    System.err.println("Ligne invalide dans le fichier Reservation : " + line);
                 }
             }
+            System.out.println("Les réservations ont été chargées depuis le fichier : " + filePath);
         } catch (IOException e) {
-            System.err.println("Error reading Reservations: " + e.getMessage());
+            System.err.println("Erreur lors de la lecture du fichier Reservation : " + e.getMessage());
         }
-        return reservations;
     }
 
-    private static Passager findPassagerByIdentifiant(List<Passager> passagers, String identifiant) {
-        for (Passager passager : passagers) {
-            if (passager.getIdentifiant().equals(identifiant)) {
-                return passager;
-            }
-        }
-        return null; // Handle case where Passager is not found
-    }
-
-    private static Vol findVolByNumero(List<Vol> vols, String numero) {
-        for (Vol vol : vols) {
-            if (vol.getNumeroVol().equals(numero)) {
-                return vol;
-            }
-        }
-        return null; // Handle case where Vol is not found
-    }
-
-    public static void writeReservationsToFile(String filePath, List<Reservation> reservations) {
+    public static void ecrireReservations(String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write("NumeroReservation|DateReservation|Statut|PassagerIdentifiant|VolNumero\n"); // Header
-            for (Reservation reservation : reservations) {
+            writer.write("NumeroReservation,DateReservation,Statut,PassagerIdentifiant,VolNumero\n"); // Header
+            for (Reservation reservation : reservations.values()) {
                 String passagerIdentifiant = (reservation.getPassager() != null) ? reservation.getPassager().getIdentifiant() : ""; // Handle null Passager
                 String volNumero = (reservation.getVol() != null) ? reservation.getVol().getNumeroVol() : ""; // Handle null Vol
-                writer.write(reservation.getNumeroReservation() + "|" + reservation.getDateReservation() + "|" +
-                        reservation.getStatut() + "|" + passagerIdentifiant + "|" + volNumero + "\n");
+                writer.write(reservation.getNumeroReservation() + "," + reservation.getDateReservation() + "," +
+                        reservation.getStatut() + "," + passagerIdentifiant + "," + volNumero + "\n");
             }
         } catch (IOException e) {
-            System.err.println("Error writing Reservations: " + e.getMessage());
+            System.err.println("Erreur lors de l'écriture dans le fichier Reservation : " + e.getMessage());
         }
     }
 

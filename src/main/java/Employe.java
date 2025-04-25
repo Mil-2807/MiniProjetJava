@@ -52,40 +52,42 @@ public class Employe extends Personne {
         System.out.println("Date d'Embauche: " + this.dateEmbauche);
     }
 
-    public static List<Employe> readEmployesFromFile(String filePath) {
-        List<Employe> employes = new ArrayList<>();
+    public static void lireEmployes(String filePath) {
+        employes.clear();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             reader.readLine(); // Skip header
             while ((line = reader.readLine()) != null) {
-                String[] data = line.split("\\|");
+                String[] data = line.split(",");
                 if (data.length == 6) {
-                    Employe employelecture = new Employe(data[0], data[1], data[2], data[3], data[4], data[5]);
-                    employelecture.setIdentifiant(data[0].trim());
-                    employelecture.setNom(data[1].trim());
-                    employelecture.setAdresse(data[2].trim());
-                    employelecture.setContact(data[3].trim());
-                    employelecture.setNumeroEmploye(data[4].trim());
-                    employelecture.setDateEmbauche(data[5].trim());
-                    employes.add(employelecture);
+                    String identifiant = data[0].trim();
+                    String nom = data[1].trim();
+                    String adresse = data[2].trim();
+                    String contact = data[3].trim();
+                    String numeroEmploye = data[4].trim();
+                    String dateEmbauche = data[5].trim();
+                    new Employe(identifiant, nom, adresse, contact, numeroEmploye, dateEmbauche);
+                } else {
+                    System.err.println("Ligne invalide dans le fichier Employé : " + line);
                 }
             }
+            System.out.println("Les employés ont été chargés depuis le fichier : " + filePath);
         } catch (IOException e) {
-            System.err.println("Error reading Employes: " + e.getMessage());
+            System.err.println("Erreur lors de la lecture du fichier Employé : " + e.getMessage());
         }
-        return employes;
     }
 
-    public static void writeEmployesToFile(String filePath, List<Employe> employes) {
+    public static void ecrireEmployes(String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write("Identifiant|Nom|Adresse|Contact|NumeroEmploye|DateEmbauche\n"); // Header
-            for (Employe employe : employes) {
-                writer.write(employe.getIdentifiant() + "|" + employe.getNom() + "|" +
-                        employe.getAdresse() + "|" + employe.getContact() + "|" +
-                        employe.getNumeroEmploye() + "|" + employe.getDateEmbauche() + "\n");
+            writer.write("Identifiant,Nom,Adresse,Contact,NumeroEmploye,DateEmbauche\n"); // Header
+            for (Employe employe : employes.values()) {
+                writer.write(employe.getIdentifiant() + "," + employe.getNom() + "," +
+                        employe.getAdresse() + "," + employe.getContact() + "," +
+                        employe.getNumeroEmploye() + "," + employe.getDateEmbauche() + "\n");
             }
+            System.out.println("Les employés ont été sauvegardés dans le fichier : " + filePath);
         } catch (IOException e) {
-            System.err.println("Error writing Employes: " + e.getMessage());
+            System.err.println("Erreur lors de l'écriture dans le fichier Employé : " + e.getMessage());
         }
     }
 

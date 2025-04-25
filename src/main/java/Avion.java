@@ -90,36 +90,42 @@ public class Avion {
         }
     }
 
-    public static List<Avion> readAvionsFromFile(String filePath) {
-        List<Avion> avions = new ArrayList<>();
+    public static void lireAvions(String filePath) {
+        avions.clear(); // Effacer les avions existants
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             reader.readLine(); // Skip header
             while ((line = reader.readLine()) != null) {
-                String[] data = line.split("\\|");
+                String[] data = line.split(",");
                 if (data.length == 3) {
-                    Avion avion = new Avion(data[0], data[1], Integer.parseInt(data[2]));
-                    avion.setImmatriculation(data[0].trim());
-                    avion.setModele(data[1].trim());
-                    avion.setCapacite(Integer.parseInt(data[2].trim()));
-                    avions.add(avion);
+                    try {
+                        String immatriculation = data[0].trim();
+                        String modele = data[1].trim();
+                        int capacite = Integer.parseInt(data[2].trim());
+                        new Avion(immatriculation, modele, capacite); // L'avion est automatiquement ajouté à la map
+                    } catch (NumberFormatException e) {
+                        System.err.println("Erreur de format de capacité dans la ligne : " + line + " - " + e.getMessage());
+                    }
+                } else {
+                    System.err.println("Ligne invalide dans le fichier Avion : " + line);
                 }
             }
+            System.out.println("Les avions ont été chargés depuis le fichier : " + filePath);
         } catch (IOException e) {
-            System.err.println("Error reading Avions: " + e.getMessage());
+            System.err.println("Erreur lors de la lecture du fichier Avion : " + e.getMessage());
         }
-        return avions;
     }
 
-    public static void writeAvionsToFile(String filePath, List<Avion> avions) {
+    public static void ecrireAvions(String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write("Immatriculation|Modele|Capacite\n"); // Header
-            for (Avion avion : avions) {
-                writer.write(avion.getImmatriculation() + "|" + avion.getModele() + "|" +
+            writer.write("Immatriculation,Modele,Capacite\n"); // Header
+            for (Avion avion : avions.values()) {
+                writer.write(avion.getImmatriculation() + "," + avion.getModele() + "," +
                         avion.getCapacite() + "\n");
             }
+            System.out.println("Les avions ont été sauvegardés dans le fichier : " + filePath);
         } catch (IOException e) {
-            System.err.println("Error writing Avions: " + e.getMessage());
+            System.err.println("Erreur lors de l'écriture dans le fichier Avion : " + e.getMessage());
         }
     }
 

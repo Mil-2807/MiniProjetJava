@@ -70,38 +70,27 @@ public abstract class Personne {
         System.out.println("Contact: " + this.contact);
     }
 
-    public static List<Personne> readPersonnesFromFile(String filePath) {
-        List<Personne> personnes = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            reader.readLine(); // Skip header
-            while ((line = reader.readLine()) != null) {
-                String[] data = line.split("\\|");
-                if (data.length == 4) {
-                    Personne personne = null;
-                    personne.setIdentifiant(data[0].trim());
-                    personne.setNom(data[1].trim());
-                    personne.setAdresse(data[2].trim());
-                    personne.setContact(data[3].trim());
-                    personnes.add(personne);
+    // Méthode statique pour lire les attributs communs d'une personne depuis une ligne CSV
+    protected static Personne lireAttributsPersonne(String line) {
+        String[] data = line.split(",");
+        if (data.length >= 4) {
+            // NOTE: On ne peut pas créer directement une instance de Personne.
+            // Les classes concrètes devront appeler cette méthode et compléter la création de l'objet.
+            // Ceci est un objet Personne "factice" pour stocker temporairement les attributs communs.
+            return new Personne(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim()) {
+                @Override
+                public String obtenirRole() {
+                    return "Inconnu"; // Role par défaut ou indication
                 }
-            }
-        } catch (IOException e) {
-            System.err.println("Error reading Personnes: " + e.getMessage());
+            };
         }
-        return personnes;
+        return null;
     }
 
-    public static void writePersonnesToFile(String filePath, List<Personne> personnes) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write("Identifiant|Nom|Adresse|Contact\n"); // Header
-            for (Personne personne : personnes) {
-                writer.write(personne.getIdentifiant() + "|" + personne.getNom() + "|" +
-                        personne.getAdresse() + "|" + personne.getContact() + "\n");
-            }
-        } catch (IOException e) {
-            System.err.println("Error writing Personnes: " + e.getMessage());
-        }
+    // Méthode statique pour écrire les attributs communs d'une personne dans un BufferedWriter
+    protected static void ecrireAttributsPersonne(Personne personne, BufferedWriter writer) throws IOException {
+        writer.write(personne.getIdentifiant() + "," + personne.getNom() + "," +
+                personne.getAdresse() + "," + personne.getContact());
     }
 
     public static Personne ajouterPersonne(Personne personne) {

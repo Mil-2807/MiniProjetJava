@@ -73,37 +73,44 @@ public class Aeroport {
         System.out.println("Description : " + description);
     }
 
-    public static List<Aeroport> readAeroportsFromFile(String filePath) {
-        List<Aeroport> aeroports = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            reader.readLine(); // Skip header
-            while ((line = reader.readLine()) != null) {
-                String[] data = line.split("\\|");
+    public static void lireAeroports(String fichierCSV) {
+        aeroports.clear();
+        String line;
+        String csvSplitBy = ",";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(fichierCSV))) {
+            // Lire l'en-tête (si présent) et l'ignorer
+            br.readLine();
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(csvSplitBy);
                 if (data.length == 4) {
-                    Aeroport aeroport = new Aeroport(data[0], data[1], data[2], data[3]);
-                    aeroport.setCode(data[0].trim());
-                    aeroport.setNom(data[1].trim());
-                    aeroport.setVille(data[2].trim());
-                    aeroport.setDescription(data[3].trim());
-                    aeroports.add(aeroport);
+                    String code = data[0].trim();
+                    String nom = data[1].trim();
+                    String ville = data[2].trim();
+                    String description = data[3].trim();
+                    new Aeroport(code, nom, ville, description);
+                } else {
+                    System.err.println("Ligne CSV invalide : " + line);
                 }
             }
+            System.out.println("Les aéroports ont été chargés depuis le fichier CSV : " + fichierCSV);
         } catch (IOException e) {
-            System.err.println("Error reading Aeroports: " + e.getMessage());
+            System.err.println("Erreur lors de la lecture du fichier CSV : " + e.getMessage());
         }
-        return aeroports;
     }
 
-    public static void writeAeroportsToFile(String filePath, List<Aeroport> aeroports) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write("codeIATA|Nom|Ville|Description\n"); // Header
-            for (Aeroport aeroport : aeroports) {
-                writer.write(aeroport.getCode() + "|" + aeroport.getNom() + "|" +
-                        aeroport.getVille() + "|" + aeroport.getDescription() + "\n");
+    public static void ecrireAeroports(String fichierCSV) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fichierCSV))) {
+            // Écrire l'en-tête
+            bw.write("Code,Nom,Ville,Description");
+            bw.newLine();
+            for (Aeroport aeroport : aeroports.values()) {
+                bw.write(String.join(",", aeroport.getCode(), aeroport.getNom(), aeroport.getVille(), aeroport.getDescription()));
+                bw.newLine();
             }
+            System.out.println("Les aéroports ont été sauvegardés dans le fichier CSV : " + fichierCSV);
         } catch (IOException e) {
-            System.err.println("Error writing Aeroports: " + e.getMessage());
+            System.err.println("Erreur lors de l'écriture dans le fichier CSV : " + e.getMessage());
         }
     }
 

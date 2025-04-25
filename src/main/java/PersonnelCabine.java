@@ -49,42 +49,44 @@ public class PersonnelCabine extends Employe {
         System.out.println("Qualification: " + qualification);
     }
 
-    public static List<PersonnelCabine> readPersonnelCabineFromFile(String filePath) {
-        List<PersonnelCabine> personnelCabines = new ArrayList<>();
+    public static void lirePersonnelCabine(String filePath) {
+        personnelCabines.clear();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             reader.readLine(); // Skip header
             while ((line = reader.readLine()) != null) {
-                String[] data = line.split("\\|");
+                String[] data = line.split(",");
                 if (data.length == 7) {
-                    PersonnelCabine personnelCabine = new PersonnelCabine(data[0], data[1], data[2], data[3], data[4], data[5], data[6]);
-                    personnelCabine.setIdentifiant(data[0].trim());
-                    personnelCabine.setNom(data[1].trim());
-                    personnelCabine.setAdresse(data[2].trim());
-                    personnelCabine.setContact(data[3].trim());
-                    personnelCabine.setNumeroEmploye(data[4].trim());
-                    personnelCabine.setDateEmbauche(data[5].trim());
-                    personnelCabine.setQualification(data[6].trim());
-                    personnelCabines.add(personnelCabine);
+                    String identifiant = data[0].trim();
+                    String nom = data[1].trim();
+                    String adresse = data[2].trim();
+                    String contact = data[3].trim();
+                    String numeroEmploye = data[4].trim();
+                    String dateEmbauche = data[5].trim();
+                    String qualification = data[6].trim();
+                    new PersonnelCabine(identifiant, nom, adresse, contact, numeroEmploye, dateEmbauche, qualification);
+                } else {
+                    System.err.println("Ligne invalide dans le fichier PersonnelCabine : " + line);
                 }
             }
+            System.out.println("Le personnel de cabine a été chargé depuis le fichier : " + filePath);
         } catch (IOException e) {
-            System.err.println("Error reading PersonnelCabine: " + e.getMessage());
+            System.err.println("Erreur lors de la lecture du fichier PersonnelCabine : " + e.getMessage());
         }
-        return personnelCabines;
     }
 
-    public static void writePersonnelCabineToFile(String filePath, List<PersonnelCabine> personnelCabines) {
+    public static void ecrirePersonnelCabine(String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write("Identifiant|Nom|Adresse|Contact|NumeroEmploye|DateEmbauche|Qualification\n"); // Header
-            for (PersonnelCabine personnelCabine : personnelCabines) {
-                writer.write(personnelCabine.getIdentifiant() + "|" + personnelCabine.getNom() + "|" +
-                        personnelCabine.getAdresse() + "|" + personnelCabine.getContact() + "|" +
-                        personnelCabine.getNumeroEmploye() + "|" + personnelCabine.getDateEmbauche() + "|" +
+            writer.write("Identifiant,Nom,Adresse,Contact,NumeroEmploye,DateEmbauche,Qualification\n"); // Header
+            for (PersonnelCabine personnelCabine : personnelCabines.values()) {
+                writer.write(personnelCabine.getIdentifiant() + "," + personnelCabine.getNom() + "," +
+                        personnelCabine.getAdresse() + "," + personnelCabine.getContact() + "," +
+                        personnelCabine.getNumeroEmploye() + "," + personnelCabine.getDateEmbauche() + "," +
                         personnelCabine.getQualification() + "\n");
             }
+            System.out.println("Le personnel de cabine a été sauvegardé dans le fichier : " + filePath);
         } catch (IOException e) {
-            System.err.println("Error writing PersonnelCabine: " + e.getMessage());
+            System.err.println("Erreur lors de l'écriture dans le fichier PersonnelCabine : " + e.getMessage());
         }
     }
 

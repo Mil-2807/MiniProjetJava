@@ -62,43 +62,48 @@ public class Pilote extends Employe{
     }
 
 
-    public static List<Pilote> readPilotesFromFile(String filePath) {
-        List<Pilote> pilotes = new ArrayList<>();
+    public static void lirePilotes(String filePath) {
+        pilotes.clear();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             reader.readLine(); // Skip header
             while ((line = reader.readLine()) != null) {
-                String[] data = line.split("\\|");
+                String[] data = line.split(",");
                 if (data.length == 8) {
-                    Pilote pilote = new Pilote(data[0], data[1], data[2], data[3], data[4], data[5], data[6], Integer.parseInt(data[7]));
-                    pilote.setIdentifiant(data[0].trim());
-                    pilote.setNom(data[1].trim());
-                    pilote.setAdresse(data[2].trim());
-                    pilote.setContact(data[3].trim());
-                    pilote.setNumeroEmploye(data[4].trim());
-                    pilote.setDateEmbauche(data[5].trim());
-                    pilote.setLicence(data[6].trim());
-                    pilote.setHeuresDeVol(Integer.parseInt(data[7].trim()));
-                    pilotes.add(pilote);
+                    try {
+                        String identifiant = data[0].trim();
+                        String nom = data[1].trim();
+                        String adresse = data[2].trim();
+                        String contact = data[3].trim();
+                        String numeroEmploye = data[4].trim();
+                        String dateEmbauche = data[5].trim();
+                        String licence = data[6].trim();
+                        double heuresDeVol = Double.parseDouble(data[7].trim());
+                        new Pilote(identifiant, nom, adresse, contact, numeroEmploye, dateEmbauche, licence, (int) heuresDeVol);
+                    } catch (NumberFormatException e) {
+                        System.err.println("Erreur de format pour les heures de vol dans la ligne : " + line + " - " + e.getMessage());
+                    }
+                } else {
+                    System.err.println("Ligne invalide dans le fichier Pilote : " + line);
                 }
             }
+            System.out.println("Les pilotes ont été chargés depuis le fichier : " + filePath);
         } catch (IOException e) {
-            System.err.println("Error reading Pilotes: " + e.getMessage());
+            System.err.println("Erreur lors de la lecture du fichier Pilote : " + e.getMessage());
         }
-        return pilotes;
     }
 
-    public static void writePilotesToFile(String filePath, List<Pilote> pilotes) {
+    public static void ecrirePilotes(String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write("Identifiant|Nom|Adresse|Contact|NumeroEmploye|DateEmbauche|Licence|HeuresDeVol\n"); // Header
-            for (Pilote pilote : pilotes) {
-                writer.write(pilote.getIdentifiant() + "|" + pilote.getNom() + "|" +
-                        pilote.getAdresse() + "|" + pilote.getContact() + "|" +
-                        pilote.getNumeroEmploye() + "|" + pilote.getDateEmbauche() + "|" +
-                        pilote.getLicence() + "|" + pilote.getHeuresDeVol() + "\n");
+            writer.write("Identifiant,Nom,Adresse,Contact,NumeroEmploye,DateEmbauche,Licence,HeuresDeVol\n"); // Header
+            for (Pilote pilote : pilotes.values()) {
+                writer.write(pilote.getIdentifiant() + "," + pilote.getNom() + "," +
+                        pilote.getAdresse() + "," + pilote.getContact() + "," +
+                        pilote.getNumeroEmploye() + "," + pilote.getDateEmbauche() + "," +
+                        pilote.getLicence() + "," + pilote.getHeuresDeVol() + "\n");
             }
         } catch (IOException e) {
-            System.err.println("Error writing Pilotes: " + e.getMessage());
+            System.err.println("Erreur lors de l'écriture dans le fichier Pilote : " + e.getMessage());
         }
     }
 

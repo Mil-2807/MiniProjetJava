@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -6,6 +7,29 @@ public class Main {
     private static List<Reservation> reservations = new ArrayList<>();
 
     public static void main(String[] args) {
+
+        //-------------------- Fichier .csv ---------------
+        String pilotesFilePath = "C:\\Users\\milan\\OneDrive\\Documents\\Mini_Projet\\csv\\pilote.csv";
+        String employesFilePath = "C:\\Users\\milan\\OneDrive\\Documents\\Mini_Projet\\csv\\employe.csv";
+        String cabinesFilePath = "C:\\Users\\milan\\OneDrive\\Documents\\Mini_Projet\\csv\\personnelCabine.csv";
+        String passagersFilePath = "C:\\Users\\milan\\OneDrive\\Documents\\Mini_Projet\\csv\\passager.csv";
+        String avionsFilePath = "C:\\Users\\milan\\OneDrive\\Documents\\Mini_Projet\\csv\\avion.csv";
+        String aeroportsFilePath = "C:\\Users\\milan\\OneDrive\\Documents\\Mini_Projet\\csv\\aeroport.csv";
+        String volsFilePath = "C:\\Users\\milan\\OneDrive\\Documents\\Mini_Projet\\csv\\vol.csv";
+        String reservationsFilePath = "C:\\Users\\milan\\OneDrive\\Documents\\Mini_Projet\\csv\\reservation.csv";
+
+        Pilote.lirePilotes(pilotesFilePath);
+        Employe.lireEmployes(employesFilePath);
+        PersonnelCabine.lirePersonnelCabine(cabinesFilePath);
+        Passager.lirePassagers(passagersFilePath);
+        Avion.lireAvions(avionsFilePath);
+        Aeroport.lireAeroports(aeroportsFilePath);
+        Map<String, Avion> avions = new HashMap<>();
+        Vol.lireVols(volsFilePath, avions); // Important: Pass the lists!
+        Map<String, Vol> vols = new HashMap<>();
+        Map<String, Passager> passagers = new HashMap<>();
+        Reservation.lireReservations(reservationsFilePath, passagers, vols);
+
         System.out.println("----------- Méthode CRUD --------------");
         // ------------ Personnes (hérité Pilote et Passager et PersonnelCabine)  -------------------
         // Création d'instances de Personnes
@@ -371,34 +395,14 @@ public class Main {
             }
         }
 
+        Pilote.ecrirePilotes(pilotesFilePath);
+        Employe.ecrireEmployes(employesFilePath);
+        PersonnelCabine.ecrirePersonnelCabine(cabinesFilePath);
+        Passager.ecrirePassagers(passagersFilePath);
+        Avion.ecrireAvions(avionsFilePath);
+        Aeroport.ecrireAeroports(aeroportsFilePath);
+        Vol.ecrireVols(volsFilePath);
+        Reservation.ecrireReservations(reservationsFilePath);
 
-        //-------------------- Fichier .csv ---------------
-        String pilotesFilePath = "C:\\Users\\milan\\OneDrive\\Documents\\Mini_Projet\\csv\\pilote.csv";
-        String employesFilePath = "C:\\Users\\milan\\OneDrive\\Documents\\Mini_Projet\\csv\\employe.csv";
-        String cabinesFilePath = "C:\\Users\\milan\\OneDrive\\Documents\\Mini_Projet\\csv\\personnelCabine.csv";
-        String passagersFilePath = "C:\\Users\\milan\\OneDrive\\Documents\\Mini_Projet\\csv\\passager.csv";
-        String avionsFilePath = "C:\\Users\\milan\\OneDrive\\Documents\\Mini_Projet\\csv\\avion.csv";
-        String aeroportsFilePath = "C:\\Users\\milan\\OneDrive\\Documents\\Mini_Projet\\csv\\aeroport.csv";
-        String volsFilePath = "C:\\Users\\milan\\OneDrive\\Documents\\Mini_Projet\\csv\\vol.csv";
-        String reservationsFilePath = "C:\\Users\\milan\\OneDrive\\Documents\\Mini_Projet\\csv\\reservation.csv";
-
-        List<Pilote> pilotes = Pilote.readPilotesFromFile(pilotesFilePath);
-        List<Employe> employes = Employe.readEmployesFromFile(employesFilePath);
-        List<PersonnelCabine> cabines = PersonnelCabine.readPersonnelCabineFromFile(cabinesFilePath);
-        List<Passager> passagers = Passager.readPassagersFromFile(passagersFilePath);
-        List<Avion> avions = Avion.readAvionsFromFile(avionsFilePath);
-        List<Aeroport> aeroports = Aeroport.readAeroportsFromFile(aeroportsFilePath);
-        List<Vol> vols = Vol.readVolsFromFile(volsFilePath, avions); // Important: Pass the lists!
-        List<Reservation> reservations = Reservation.readReservationsFromFile(reservationsFilePath, passagers, vols);
-
-
-        Pilote.writePilotesToFile(pilotesFilePath, pilotes);
-        Employe.writeEmployesToFile(employesFilePath, employes);
-        PersonnelCabine.writePersonnelCabineToFile(cabinesFilePath, cabines);
-        Passager.writePassagersToFile(passagersFilePath, passagers);
-        Avion.writeAvionsToFile(avionsFilePath, avions);
-        Aeroport.writeAeroportsToFile(aeroportsFilePath, aeroports);
-        Vol.writeVolsToFile(volsFilePath, vols);
-        Reservation.writeReservationsToFile(reservationsFilePath, reservations);
     }
 }

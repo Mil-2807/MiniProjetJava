@@ -69,39 +69,41 @@ public class Passager extends Personne{
         System.out.println("Vols Reserve: " + volsReserve);
     }
 
-    public static List<Passager> readPassagersFromFile(String filePath) {
-        List<Passager> passagers = new ArrayList<>();
+    public static void lirePassagers(String filePath) {
+        passagers.clear();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             reader.readLine(); // Skip header
             while ((line = reader.readLine()) != null) {
-                String[] data = line.split("\\|");
+                String[] data = line.split(",");
                 if (data.length == 5) {
-                    Passager passager = new Passager(data[0], data[1], data[2], data[3], data[4]);
-                    passager.setIdentifiant(data[0].trim());
-                    passager.setNom(data[1].trim());
-                    passager.setAdresse(data[2].trim());
-                    passager.setContact(data[3].trim());
-                    passager.setPasseport(data[4].trim());
-                    passagers.add(passager);
+                    String identifiant = data[0].trim();
+                    String nom = data[1].trim();
+                    String adresse = data[2].trim();
+                    String contact = data[3].trim();
+                    String passeport = data[4].trim();
+                    new Passager(identifiant, nom, adresse, contact, passeport);
+                } else {
+                    System.err.println("Ligne invalide dans le fichier Passager : " + line);
                 }
             }
+            System.out.println("Les passagers ont été chargés depuis le fichier : " + filePath);
         } catch (IOException e) {
-            System.err.println("Error reading Passagers: " + e.getMessage());
+            System.err.println("Erreur lors de la lecture du fichier Passager : " + e.getMessage());
         }
-        return passagers;
     }
 
-    public static void writePassagersToFile(String filePath, List<Passager> passagers) {
+    public static void ecrirePassagers(String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write("Identifiant|Nom|Adresse|Contact|Passeport\n"); // Header
-            for (Passager passager : passagers) {
-                writer.write(passager.getIdentifiant() + "|" + passager.getNom() + "|" +
-                        passager.getAdresse() + "|" + passager.getContact() + "|" +
+            writer.write("Identifiant,Nom,Adresse,Contact,Passeport\n"); // Header
+            for (Passager passager : passagers.values()) {
+                writer.write(passager.getIdentifiant() + "," + passager.getNom() + "," +
+                        passager.getAdresse() + "," + passager.getContact() + "," +
                         passager.getPasseport() + "\n");
             }
+            System.out.println("Les passagers ont été sauvegardés dans le fichier : " + filePath);
         } catch (IOException e) {
-            System.err.println("Error writing Passagers: " + e.getMessage());
+            System.err.println("Erreur lors de l'écriture dans le fichier Passager : " + e.getMessage());
         }
     }
 

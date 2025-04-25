@@ -230,54 +230,50 @@ public class Vol {
     }
 
 
-    public static List<Vol> readVolsFromFile(String filePath, List<Avion> avions) {
-        List<Vol> vols = new ArrayList<>();
+    public static void lireVols(String filePath, Map<String, Avion> avionsMap) {
+        vols.clear();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             reader.readLine(); // Skip header
             while ((line = reader.readLine()) != null) {
-                String[] data = line.split("\\|");
+                String[] data = line.split(",");
                 if (data.length == 8) {
-                    Vol vol = new Vol(data[0],data[1],data[2],data[3],data[4],data[5], Double.parseDouble(data[6]));
-                    vol.setNumeroVol(data[0].trim());
-                    vol.setOrigine(data[1].trim());
-                    vol.setDestination(data[2].trim());
-                    vol.setDateHeureDepart(data[3].trim());
-                    vol.setDateHeureArrivee(data[4].trim());
-                    vol.setEtat(data[5].trim());
-                    vol.setPrix(Double.parseDouble(data[6].trim()));
-                    String avionImmatriculation = data[7].trim();
-                    Avion avion = findAvionByImmatriculation(avions, avionImmatriculation);
-                    vol.setAvion(avion);
-                    vols.add(vol);
+                    try {
+                        String numeroVol = data[0].trim();
+                        String origine = data[1].trim();
+                        String destination = data[2].trim();
+                        String dateHeureDepart = data[3].trim();
+                        String dateHeureArrivee = data[4].trim();
+                        String etat = data[5].trim();
+                        double prix = Double.parseDouble(data[6].trim());
+                        String avionImmatriculation = data[7].trim();
+                        Avion avion = avionsMap.get(avionImmatriculation);
+                        Vol vol = new Vol(numeroVol, origine, destination, dateHeureDepart, dateHeureArrivee, etat, prix);
+                        vol.setAvion(avion);
+                    } catch (NumberFormatException e) {
+                        System.err.println("Erreur de format numérique dans la ligne : " + line + " - " + e.getMessage());
+                    }
+                } else {
+                    System.err.println("Ligne invalide dans le fichier Vol : " + line);
                 }
             }
+            System.out.println("Les vols ont été chargés depuis le fichier : " + filePath);
         } catch (IOException e) {
-            System.err.println("Error reading Vols: " + e.getMessage());
+            System.err.println("Erreur lors de la lecture du fichier Vol : " + e.getMessage());
         }
-        return vols;
     }
 
-    private static Avion findAvionByImmatriculation(List<Avion> avions, String immatriculation) {
-        for (Avion avion : avions) {
-            if (avion.getImmatriculation().equals(immatriculation)) {
-                return avion;
-            }
-        }
-        return null; // Handle case where Avion is not found
-    }
-
-    public static void writeVolsToFile(String filePath, List<Vol> vols) {
+    public static void ecrireVols(String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write("NumeroVol|Origine|Destination|HeureDepart|HeureArrivee|Prix|Etat|AvionImmatriculation\n"); // Header
-            for (Vol vol : vols) {
+            writer.write("NumeroVol,Origine,Destination,HeureDepart,HeureArrivee,Etat,Prix,AvionImmatriculation\n"); // Header
+            for (Vol vol : vols.values()) {
                 String avionImmatriculation = (vol.getAvion() != null) ? vol.getAvion().getImmatriculation() : ""; // Handle null Avion
-                writer.write(vol.getNumeroVol() + "|" + vol.getOrigine() + "|" + vol.getDestination() + "|" +
-                        vol.getDateHeureDepart() + "|" + vol.getDateHeureArrivee() + "|" + vol.getPrix() + "|" +
-                        vol.getEtat() + "|" + avionImmatriculation + "\n");
+                writer.write(vol.getNumeroVol() + "," + vol.getOrigine() + "," + vol.getDestination() + "," +
+                        vol.getDateHeureDepart() + "," + vol.getDateHeureArrivee() + "," + vol.getEtat() + "," +
+                        vol.getPrix() + "," + avionImmatriculation + "\n");
             }
         } catch (IOException e) {
-            System.err.println("Error writing Vols: " + e.getMessage());
+            System.err.println("Erreur lors de l'écriture dans le fichier Vol : " + e.getMessage());
         }
     }
 
