@@ -2,6 +2,7 @@ Main.class
 Reservation.class
 Passager.class
 Employe.class
+Personne$1.class
 PersonnelCabine.class
 Personne.class
 Vol.class
