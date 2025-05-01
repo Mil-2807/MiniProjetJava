@@ -272,6 +272,7 @@ public class Vol {
                         vol.getDateHeureDepart() + "," + vol.getDateHeureArrivee() + "," + vol.getEtat() + "," +
                         vol.getPrix() + "," + avionImmatriculation + "\n");
             }
+            System.out.println("Les vols ont été chargées depuis le fichier : " + filePath);
         } catch (IOException e) {
             System.err.println("Erreur lors de l'écriture dans le fichier Vol : " + e.getMessage());
         }

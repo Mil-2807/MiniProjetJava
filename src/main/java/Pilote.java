@@ -102,6 +102,7 @@ public class Pilote extends Employe{
                         pilote.getNumeroEmploye() + "," + pilote.getDateEmbauche() + "," +
                         pilote.getLicence() + "," + pilote.getHeuresDeVol() + "\n");
             }
+            System.out.println("Les pilotes ont été chargées depuis le fichier : " + filePath);
         } catch (IOException e) {
             System.err.println("Erreur lors de l'écriture dans le fichier Pilote : " + e.getMessage());
         }

@@ -59,8 +59,8 @@ public class Reservation {
         }
     }
 
-    public static void ecrireReservations(String filePath) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+    public static void ecrireReservations(String fichierCSV) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fichierCSV))) {
             writer.write("NumeroReservation,DateReservation,Statut,PassagerIdentifiant,VolNumero\n"); // Header
             for (Reservation reservation : reservations.values()) {
                 String passagerIdentifiant = (reservation.getPassager() != null) ? reservation.getPassager().getIdentifiant() : ""; // Handle null Passager
@@ -68,6 +68,7 @@ public class Reservation {
                 writer.write(reservation.getNumeroReservation() + "," + reservation.getDateReservation() + "," +
                         reservation.getStatut() + "," + passagerIdentifiant + "," + volNumero + "\n");
             }
+            System.out.println("Les réservations ont été sauvegardés dans le fichier CSV : " + fichierCSV);
         } catch (IOException e) {
             System.err.println("Erreur lors de l'écriture dans le fichier Reservation : " + e.getMessage());
         }
